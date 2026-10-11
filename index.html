@@ -17,7 +17,7 @@
         To show them, search for "CHINESE NAME", type the names in,
         and delete the comment markers at the start and end of
         those two lines.
-     4. Photos: put photo1.jpg ... photo4.jpg in the images/ folder.
+     4. Photos: put photo1.jpg ... photo5.jpg in the images/ folder.
         No code changes are needed.
      5. RSVP settings (Apps Script URL, max guests) are in the
         <script> block at the bottom of this file. Search for "SETTINGS".
@@ -376,22 +376,16 @@ p { margin: 0 0 1em; }
 .gallery .frame--arch { max-width: none; }
 
 /* Phones: one column, photos alternate left and right */
-@media (max-width: 559px) {
+@media (max-width: 639px) {
   .gallery__item { width: 86%; }
   .gallery__item:nth-child(even) { justify-self: end; }
 }
-/* Tablets: two columns, the third photo centred underneath */
-@media (min-width: 560px) and (max-width: 899px) {
-  .gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.75rem 2rem; align-items: start; }
-  .gallery__item:nth-child(2) { margin-top: 3rem; }
-  .gallery__item:nth-child(3) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 1rem); }
-}
-/* Desktop: three columns, the middle photo sits lower */
-@media (min-width: 900px) {
-  .gallery__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; align-items: start; padding-right: 18px; padding-bottom: 18px; }
+/* Tablets and desktop: 2 x 2. Each row is centred, and the right-hand photos sit a little lower */
+@media (min-width: 640px) {
+  .gallery .wrap { width: min(960px, 100% - 2.5rem); }
+  .gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3.25rem 3.5rem; align-items: center; padding-right: 18px; padding-bottom: 40px; }
   .gallery .frame { --fx: 16px; --fy: 16px; }
-  .gallery__item:nth-child(2) { margin-top: 4.5rem; }
-  .gallery__item:nth-child(3) { margin-top: 1.5rem; }
+  .gallery__item:nth-child(even) { position: relative; top: 1.75rem; }
 }
 
 /* 9. WEDDING DETAILS ----------------------------------------------------- */
@@ -785,7 +779,7 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
     </section>
 
     <!-- ============================== PRE-WEDDING PHOTOS ==============================
-         Photos 2, 3 and 4. Each photo is shown at its own shape automatically (nothing is cut off,
+         Photos 2, 3, 4 and 5. Each photo is shown in its own shape automatically (nothing is cut off,
          except very wide or very tall photos). To change which part of a photo stays in view,
          edit the --pos value on its <img> (for example 50% 20% keeps more of the top). -->
     <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
@@ -811,20 +805,30 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
 
           <!-- PHOTO 3 -->
           <li class="gallery__item">
-            <div class="frame reveal" data-auto-ratio style="--d: 140ms">
+            <div class="frame frame--arch reveal" data-auto-ratio style="--d: 140ms">
               <div class="photo">
                 <span class="photo__ph" aria-hidden="true"><b>Photo 3</b>images/photo3.jpg</span>
-                <img src="images/photo3.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 40%">
+                <img src="images/photo3.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 30%">
               </div>
             </div>
           </li>
 
           <!-- PHOTO 4 -->
           <li class="gallery__item">
-            <div class="frame frame--arch reveal" data-auto-ratio style="--d: 280ms">
+            <div class="frame frame--arch reveal" data-auto-ratio>
               <div class="photo">
                 <span class="photo__ph" aria-hidden="true"><b>Photo 4</b>images/photo4.jpg</span>
-                <img src="images/photo4.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 35%">
+                <img src="images/photo4.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 30%">
+              </div>
+            </div>
+          </li>
+
+          <!-- PHOTO 5 -->
+          <li class="gallery__item">
+            <div class="frame frame--arch reveal" data-auto-ratio style="--d: 140ms">
+              <div class="photo">
+                <span class="photo__ph" aria-hidden="true"><b>Photo 5</b>images/photo5.jpg</span>
+                <img src="images/photo5.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 30%">
               </div>
             </div>
           </li>
