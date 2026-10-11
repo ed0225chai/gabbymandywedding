@@ -20,7 +20,7 @@
      4. Photos: put photo1.jpg ... photo5.jpg in the images/ folder.
         No code changes are needed.
      5. RSVP settings (Apps Script URL, max guests) are in the
-        <script> block at the bottom of this file. Search for "SETTINGS".
+        script block at the bottom of this file. Search for "SETTINGS".
     ============================================================
   -->
 
@@ -475,9 +475,9 @@ p { margin: 0 0 1em; }
 
 .field { min-width: 0; margin: 0 0 1.4rem; padding: 0; border: 0; }
 .field > label, .field > legend { display: block; margin: 0 0 0.45rem; padding: 0; font-size: 0.98rem; }
-.field label [lang], .field legend [lang] { margin-left: 0.3rem; font-size: 0.9em; color: var(--gold-deep); }
+.field > label [lang], .field > legend [lang] { margin-left: 0.3rem; font-size: 0.9em; color: var(--gold-deep); }
 
-input[type="text"], input[type="tel"], select, textarea {
+input[type="text"], input[type="tel"], input[type="email"], select, textarea {
   display: block; width: 100%; padding: 0.8rem 0.95rem;
   font: inherit; font-size: 1rem; color: var(--ink);
   background: var(--ivory); border: 1px solid #d6c59a; border-radius: 2px;
@@ -490,8 +490,8 @@ select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2386672B' stroke-width='1.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 1rem center;
 }
-input[type="text"]:hover, input[type="tel"]:hover, select:hover, textarea:hover { border-color: var(--gold); }
-input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus {
+input[type="text"]:hover, input[type="tel"]:hover, input[type="email"]:hover, select:hover, textarea:hover { border-color: var(--gold); }
+input[type="text"]:focus, input[type="tel"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
   outline: none; border-color: var(--red); background: #fff; box-shadow: 0 0 0 3px rgba(155, 44, 40, 0.14);
 }
 [aria-invalid="true"] { border-color: var(--red) !important; background: #fdf1ee !important; }
@@ -522,7 +522,7 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
 .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .chip { position: relative; cursor: pointer; }
 .chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.chip span {
+.chip > span {
   display: block; padding: 0.4rem 0.95rem; font-size: 0.95rem; background: var(--ivory);
   border: 1px solid #d6c59a; border-radius: 999px;
   transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
@@ -530,6 +530,56 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
 .chip:hover span { border-color: var(--gold-deep); }
 .chip input:checked + span { color: var(--paper); background: var(--red); border-color: var(--red); }
 .chip input:focus-visible + span { outline: 2px solid var(--red); outline-offset: 2px; }
+
+.chip__zh { margin-left: 0.3rem; font-size: 0.9em; opacity: 0.85; }
+.field__follow { margin-top: 0.75rem; }
+.field__hint--top { margin: -0.1rem 0 0.8rem; }
+
+/* Groups of questions */
+.group { margin: 0 0 2.4rem; padding: 0; border: 0; }
+.group__title {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.1rem 0.8rem;
+  margin: 0 0 1.4rem; padding: 0 0 0.65rem; font-weight: 400; line-height: 1.4;
+  border-bottom: 1px solid var(--line);
+}
+.group__zh { font-size: 1.2rem; font-weight: 600; letter-spacing: 0.16em; color: var(--red); }
+.group__en { font-family: var(--display); font-size: 1.15rem; color: var(--ink-soft); }
+
+/* Two fields side by side when there is room, stacked on a phone */
+.field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); column-gap: 1rem; }
+
+/* Event cards: tick the celebration, then pick the number of guests */
+.events { display: grid; gap: 0.75rem; }
+.event {
+  background: var(--ivory); border: 1px solid var(--line);
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.event:hover { border-color: var(--gold); }
+.event.is-on { background: #fff; border-color: var(--red); box-shadow: 0 16px 28px -24px rgba(122, 33, 30, 0.9); }
+.event.has-error, #field-events.has-error .event { border-color: var(--red); background: #fdf1ee; }
+.event__pick { position: relative; display: flex; align-items: flex-start; gap: 0.9rem; padding: 1rem 1.1rem; cursor: pointer; }
+.event__pick input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.event__box {
+  flex: none; display: grid; place-items: center; width: 1.35rem; height: 1.35rem; margin-top: 0.25rem;
+  background: var(--paper); border: 1px solid var(--gold-deep);
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.event__box::after {
+  content: ""; width: 0.7rem; height: 0.38rem; margin-top: -0.12rem;
+  border-left: 2px solid var(--paper); border-bottom: 2px solid var(--paper);
+  transform: rotate(-45deg) scale(0); transition: transform 0.25s var(--ease);
+}
+.event__pick input:checked ~ .event__box { background: var(--red); border-color: var(--red); }
+.event__pick input:checked ~ .event__box::after { transform: rotate(-45deg) scale(1); }
+.event__pick input:focus-visible ~ .event__box { outline: 2px solid var(--red); outline-offset: 3px; }
+.event__name { display: block; font-size: 1.08rem; line-height: 1.4; }
+.event__name [lang] { margin-right: 0.6rem; font-weight: 600; letter-spacing: 0.14em; color: var(--red); }
+.event__when { display: block; font-size: 0.92rem; color: var(--ink-soft); }
+.event__when span { white-space: nowrap; }
+.event__count { padding: 0 1.1rem 1.1rem 3.35rem; animation: rise 0.45s var(--ease) both; }
+.event__count label { display: block; margin: 0 0 0.4rem; font-size: 0.92rem; }
+.event__count label [lang] { margin-left: 0.3rem; font-size: 0.9em; color: var(--gold-deep); }
+.event__count select { max-width: 13rem; }
 
 .form__attend { animation: rise 0.6s var(--ease) both; }
 .form__fine { margin: 0.9rem 0 0; font-size: 0.88rem; text-align: center; color: var(--ink-soft); }
@@ -705,7 +755,7 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
         <figure class="moon">
           <div class="photo moon__photo">
             <span class="photo__ph" aria-hidden="true"><b>Photo 1</b>images/photo1.jpg</span>
-            <img src="IMG-20261011-WA0020.jpg" alt="Gabriel and Mandy" fetchpriority="high" decoding="async" style="--pos: 50% 35%">
+            <img src="IMG-20261011-WA0017.jpg" alt="Gabriel and Mandy" fetchpriority="high" decoding="async" style="--pos: 50% 35%">
           </div>
           <svg class="moon__ring" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
             <circle cx="50" cy="50" r="49.5" pathLength="1"/>
@@ -798,7 +848,7 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
             <div class="frame frame--arch reveal" data-auto-ratio>
               <div class="photo">
                 <span class="photo__ph" aria-hidden="true"><b>Photo 2</b>images/photo2.jpg</span>
-                <img src="IMG-20261011-WA0017.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 30%">
+                <img src="IMG-20261011-WA0012.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 30%">
               </div>
             </div>
           </li>
@@ -818,7 +868,7 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
             <div class="frame frame--arch reveal" data-auto-ratio>
               <div class="photo">
                 <span class="photo__ph" aria-hidden="true"><b>Photo 4</b>images/photo4.jpg</span>
-                <img src="IMG-20261011-WA0012.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 30%">
+                <img src="IMG-20261011-WA0020.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 30%">
               </div>
             </div>
           </li>
@@ -913,50 +963,132 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
               <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
             </div>
 
-            <fieldset class="field choice" id="field-attendance">
-              <legend>Will you join us? <span lang="zh-Hans">您是否出席</span> <span class="req" aria-hidden="true">*</span></legend>
-              <div class="choice__options">
-                <label class="choice__opt">
-                  <input type="radio" name="attendance" value="Attending" required>
-                  <span class="choice__card">
-                    <span class="choice__zh" lang="zh-Hans">欣然赴约</span>
-                    <span class="choice__en">Joyfully accept</span>
-                  </span>
-                </label>
-                <label class="choice__opt">
-                  <input type="radio" name="attendance" value="Declined" required>
-                  <span class="choice__card">
-                    <span class="choice__zh" lang="zh-Hans">遗憾缺席</span>
-                    <span class="choice__en">Regretfully decline</span>
-                  </span>
-                </label>
-              </div>
-              <p class="field__error" id="err-attendance" hidden></p>
-            </fieldset>
+            <!-- ============ 1. ABOUT YOU ============ -->
+            <section class="group" aria-labelledby="grp-you">
+              <h3 class="group__title" id="grp-you"><span class="group__zh" lang="zh-Hans">宾客资料</span><span class="group__en">About you</span></h3>
 
-            <div class="field" id="field-guestName">
-              <label for="guestName">Full name <span lang="zh-Hans">姓名</span> <span class="req" aria-hidden="true">*</span></label>
-              <input id="guestName" name="guestName" type="text" autocomplete="name" maxlength="100" required aria-describedby="err-guestName">
-              <p class="field__error" id="err-guestName" hidden></p>
-            </div>
-
-            <!-- Shown only when the guest is attending -->
-            <div class="form__attend" id="attend-fields" hidden>
-              <div class="field" id="field-attendees">
-                <label for="attendees">Number of attendees, including you <span lang="zh-Hans">出席人数</span> <span class="req" aria-hidden="true">*</span></label>
-                <select id="attendees" name="attendees" aria-describedby="attendees-hint err-attendees"></select>
-                <p class="field__hint" id="attendees-hint"></p>
-                <p class="field__error" id="err-attendees" hidden></p>
+              <div class="field" id="field-guestName">
+                <label for="guestName">Full name <span lang="zh-Hans">姓名</span> <span class="req" aria-hidden="true">*</span></label>
+                <input id="guestName" name="guestName" type="text" autocomplete="name" maxlength="100" required aria-describedby="err-guestName">
+                <p class="field__error" id="err-guestName" hidden></p>
               </div>
 
-              <div class="field" id="guests-field" hidden>
-                <label for="guestNames">Additional guest names <span lang="zh-Hans">同行宾客姓名</span></label>
-                <textarea id="guestNames" name="guestNames" rows="2" maxlength="500" aria-describedby="err-guestNames"></textarea>
-                <p class="field__error" id="err-guestNames" hidden></p>
+              <fieldset class="field" id="field-side">
+                <legend>You are a guest of <span lang="zh-Hans">您是哪方亲友</span></legend>
+                <div class="chips">
+                  <label class="chip"><input type="radio" name="side" value="Groom"><span>Groom's side <span class="chip__zh" lang="zh-Hans">新郎亲友</span></span></label>
+                  <label class="chip"><input type="radio" name="side" value="Bride"><span>Bride's side <span class="chip__zh" lang="zh-Hans">新娘亲友</span></span></label>
+                  <label class="chip"><input type="radio" name="side" value="Both"><span>Both <span class="chip__zh" lang="zh-Hans">双方</span></span></label>
+                </div>
+                <p class="field__error" id="err-side" hidden></p>
+              </fieldset>
+
+              <div class="field-row">
+                <div class="field" id="field-email">
+                  <label for="email">Email <span lang="zh-Hans">电子邮箱</span></label>
+                  <input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="120" aria-describedby="err-email">
+                  <p class="field__error" id="err-email" hidden></p>
+                </div>
+                <div class="field" id="field-contact">
+                  <label for="contact">Mobile / WhatsApp <span lang="zh-Hans">手机号码</span></label>
+                  <input id="contact" name="contact" type="tel" autocomplete="tel" inputmode="tel" maxlength="25" aria-describedby="err-contact">
+                  <p class="field__error" id="err-contact" hidden></p>
+                </div>
               </div>
+            </section>
+
+            <!-- ============ 2. YOUR REPLY ============ -->
+            <section class="group" aria-labelledby="grp-reply">
+              <h3 class="group__title" id="grp-reply"><span class="group__zh" lang="zh-Hans">出席情况</span><span class="group__en">Your reply</span></h3>
+
+              <fieldset class="field choice" id="field-attendance">
+                <legend>Will you join us? <span lang="zh-Hans">您是否出席</span> <span class="req" aria-hidden="true">*</span></legend>
+                <div class="choice__options">
+                  <label class="choice__opt">
+                    <input type="radio" name="attendance" value="Attending" required>
+                    <span class="choice__card">
+                      <span class="choice__zh" lang="zh-Hans">欣然赴约</span>
+                      <span class="choice__en">Joyfully accept</span>
+                    </span>
+                  </label>
+                  <label class="choice__opt">
+                    <input type="radio" name="attendance" value="Declined" required>
+                    <span class="choice__card">
+                      <span class="choice__zh" lang="zh-Hans">遗憾缺席</span>
+                      <span class="choice__en">Regretfully decline</span>
+                    </span>
+                  </label>
+                </div>
+                <p class="field__error" id="err-attendance" hidden></p>
+              </fieldset>
+
+              <!-- Shown only when the guest is attending -->
+              <div class="form__attend" id="attend-events" hidden>
+                <fieldset class="field" id="field-events">
+                  <legend>Which celebrations will you join? <span lang="zh-Hans">您将出席哪场活动</span> <span class="req" aria-hidden="true">*</span></legend>
+                  <p class="field__hint field__hint--top">Choose one or both, then tell us how many people are in your party for each.</p>
+
+                  <div class="events">
+                    <!-- If you change a date or time in the "Join us" section above, change it here too. -->
+                    <div class="event" id="event-tea">
+                      <label class="event__pick">
+                        <input type="checkbox" id="join-tea" name="joinTea" aria-describedby="err-events">
+                        <span class="event__box" aria-hidden="true"></span>
+                        <span class="event__text">
+                          <span class="event__name"><span lang="zh-Hans">敬茶</span>Tea ceremony</span>
+                          <span class="event__when">Thursday, 3 December 2026 &middot; <span>9:00 AM</span></span>
+                        </span>
+                      </label>
+                      <div class="event__count" id="count-tea" hidden>
+                        <label for="teaGuests">Guests including you <span lang="zh-Hans">出席人数</span></label>
+                        <select id="teaGuests" name="teaGuests" aria-describedby="err-teaGuests"></select>
+                        <p class="field__error" id="err-teaGuests" hidden></p>
+                      </div>
+                    </div>
+
+                    <div class="event" id="event-wedding">
+                      <label class="event__pick">
+                        <input type="checkbox" id="join-wedding" name="joinWedding" aria-describedby="err-events">
+                        <span class="event__box" aria-hidden="true"></span>
+                        <span class="event__text">
+                          <span class="event__name"><span lang="zh-Hans">婚宴</span>Wedding ceremony</span>
+                          <span class="event__when">Monday, 7 December 2026 &middot; <span>6:30 PM</span></span>
+                        </span>
+                      </label>
+                      <div class="event__count" id="count-wedding" hidden>
+                        <label for="weddingGuests">Guests including you <span lang="zh-Hans">出席人数</span></label>
+                        <select id="weddingGuests" name="weddingGuests" aria-describedby="err-weddingGuests"></select>
+                        <p class="field__error" id="err-weddingGuests" hidden></p>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="field__error" id="err-events" hidden></p>
+                </fieldset>
+
+                <!-- Shown only when the party is bigger than one person -->
+                <div id="guests-extra" hidden>
+                  <div class="field" id="field-guestNames">
+                    <label for="guestNames">Names of the people with you <span lang="zh-Hans">同行宾客姓名</span></label>
+                    <textarea id="guestNames" name="guestNames" rows="2" maxlength="500" aria-describedby="err-guestNames"></textarea>
+                    <p class="field__hint">One name per line is perfect. Please include the children.</p>
+                    <p class="field__error" id="err-guestNames" hidden></p>
+                  </div>
+
+                  <div class="field" id="field-children">
+                    <label for="children">How many of them are children aged 12 or under? <span lang="zh-Hans">十二岁及以下儿童</span></label>
+                    <select id="children" name="children" aria-describedby="err-children"></select>
+                    <p class="field__error" id="err-children" hidden></p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ============ 3. FOOD AND SEATING (attending guests only) ============ -->
+            <section class="group form__attend" id="attend-food" aria-labelledby="grp-food" hidden>
+              <h3 class="group__title" id="grp-food"><span class="group__zh" lang="zh-Hans">饮食与座位</span><span class="group__en">Food and seating</span></h3>
 
               <fieldset class="field" id="field-dietary">
-                <legend>Dietary preferences <span lang="zh-Hans">饮食偏好</span></legend>
+                <legend>Dietary preferences for your party <span lang="zh-Hans">饮食偏好</span></legend>
                 <div class="chips">
                   <label class="chip"><input type="checkbox" name="dietary" value="Vegetarian"><span>Vegetarian</span></label>
                   <label class="chip"><input type="checkbox" name="dietary" value="Vegan"><span>Vegan</span></label>
@@ -964,33 +1096,47 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
                   <label class="chip"><input type="checkbox" name="dietary" value="Pescatarian"><span>Pescatarian</span></label>
                   <label class="chip"><input type="checkbox" name="dietary" value="No pork"><span>No pork</span></label>
                   <label class="chip"><input type="checkbox" name="dietary" value="No beef"><span>No beef</span></label>
+                  <label class="chip"><input type="checkbox" name="dietary" value="No seafood"><span>No seafood</span></label>
                 </div>
+                <p class="field__error" id="err-dietary" hidden></p>
               </fieldset>
 
               <div class="field" id="field-allergies">
-                <label for="allergies">Allergies or special dietary requirements <span lang="zh-Hans">过敏或特殊饮食需求</span></label>
+                <label for="allergies">Allergies or other food needs <span lang="zh-Hans">过敏或特殊饮食需求</span></label>
                 <textarea id="allergies" name="allergies" rows="2" maxlength="500" aria-describedby="err-allergies"></textarea>
+                <p class="field__hint">If it differs between people, please say who.</p>
                 <p class="field__error" id="err-allergies" hidden></p>
               </div>
-            </div>
 
-            <div class="field" id="field-contact">
-              <label for="contact">Contact number <span lang="zh-Hans">联络电话</span></label>
-              <input id="contact" name="contact" type="tel" autocomplete="tel" inputmode="tel" maxlength="25" aria-describedby="err-contact">
-              <p class="field__error" id="err-contact" hidden></p>
-            </div>
+              <fieldset class="field" id="field-access">
+                <legend>Seating and access <span lang="zh-Hans">座位与无障碍需求</span></legend>
+                <div class="chips">
+                  <label class="chip"><input type="checkbox" name="access" value="Wheelchair access"><span>Wheelchair access</span></label>
+                  <label class="chip"><input type="checkbox" name="access" value="Seat for elderly guest"><span>Seat for elderly guest</span></label>
+                  <label class="chip"><input type="checkbox" name="access" value="Baby / high chair"><span>Baby / high chair</span></label>
+                </div>
+                <label class="sr-only" for="accessOther">Other seating or access request</label>
+                <input id="accessOther" name="accessOther" class="field__follow" type="text" maxlength="100" placeholder="Anything else? e.g. near the exit" aria-describedby="err-access">
+                <p class="field__error" id="err-access" hidden></p>
+              </fieldset>
+            </section>
 
-            <div class="field" id="field-message">
-              <label for="message">Message to the couple <span lang="zh-Hans">祝福留言</span></label>
-              <textarea id="message" name="message" rows="4" maxlength="1000" aria-describedby="err-message"></textarea>
-              <p class="field__error" id="err-message" hidden></p>
-            </div>
+            <!-- ============ 4. MESSAGE ============ -->
+            <section class="group" aria-labelledby="grp-message">
+              <h3 class="group__title" id="grp-message"><span class="group__zh" lang="zh-Hans">祝福留言</span><span class="group__en">A message</span></h3>
+
+              <div class="field" id="field-message">
+                <label for="message">Message to the couple <span lang="zh-Hans">留言</span></label>
+                <textarea id="message" name="message" rows="4" maxlength="1000" aria-describedby="err-message"></textarea>
+                <p class="field__error" id="err-message" hidden></p>
+              </div>
+            </section>
 
             <button class="btn btn--primary btn--block" type="submit" id="submit-btn">
               <span class="btn__spinner" aria-hidden="true"></span>
               <span class="btn__label">Submit RSVP</span>
             </button>
-            <p class="form__fine">Your reply goes to the couple's private guest list.</p>
+            <p class="form__fine">Your reply goes to the couple's private guest list. Need to change something? Just send the form again and we will use your latest reply.</p>
           </form>
 
           <!-- Shown after the server confirms the RSVP was saved -->
@@ -1036,9 +1182,9 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
     // It looks like: https://script.google.com/macros/s/AKfycb.../exec
     APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzSRCMgk0_AJWiUByYAvDX7fKt4sr8EgbICiX_8c2hYoxp5IuGvgwfByugYM71MJmwp/exec',
 
-    // Largest number of people one RSVP may include (the guest counts themselves).
+    // Largest party one RSVP may bring to EACH celebration (you plus your guests).
     // IMPORTANT: use the same number for MAX_ATTENDEES_PER_RSVP in Code.gs.
-    MAX_ATTENDEES: 15,
+    MAX_ATTENDEES: 4,
 
     // How long to wait for Google before telling the guest we could not confirm the save.
     REQUEST_TIMEOUT_MS: 25000
@@ -1258,15 +1404,26 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
     const form = $('#rsvp-form');
     if (!form) return;
 
-    const LIMITS = { name: 100, guestNames: 500, dietary: 200, allergies: 500, contact: 25, message: 1000 };
+    const LIMITS = { name: 100, email: 120, guestNames: 500, dietary: 200, allergies: 500, access: 200, contact: 25, message: 1000 };
     const max = Math.max(1, Math.floor(Number(CONFIG.MAX_ATTENDEES)) || 1);
+
+    // The two celebrations. "field" is the name Code.gs expects for the guest count of that event.
+    const events = [
+      { id: 'tea', field: 'teaGuests', name: 'tea ceremony' },
+      { id: 'wedding', field: 'weddingGuests', name: 'wedding ceremony' }
+    ].map((ev) => Object.assign(ev, {
+      card: $('#event-' + ev.id),
+      join: $('#join-' + ev.id),
+      count: $('#count-' + ev.id),
+      select: $('#' + ev.field)
+    }));
 
     const el = {
       status: $('#form-status'),
-      attendFields: $('#attend-fields'),
-      guestsField: $('#guests-field'),
-      attendees: $('#attendees'),
-      hint: $('#attendees-hint'),
+      attendEvents: $('#attend-events'),
+      attendFood: $('#attend-food'),
+      guestsExtra: $('#guests-extra'),
+      children: $('#children'),
       submit: $('#submit-btn'),
       submitLabel: $('.btn__label', form),
       thanks: $('#thanks'),
@@ -1276,32 +1433,63 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
     };
 
     // Every field that can show an error: where the message goes and which inputs to flag.
+    // The keys match the error keys that Code.gs sends back.
     const FIELDS = {
-      attendance: { wrap: '#field-attendance', error: '#err-attendance', inputs: () => $$('input[name="attendance"]', form) },
       guestName: { wrap: '#field-guestName', error: '#err-guestName', inputs: () => [$('#guestName')] },
-      attendees: { wrap: '#field-attendees', error: '#err-attendees', inputs: () => [$('#attendees')] },
-      guestNames: { wrap: '#guests-field', error: '#err-guestNames', inputs: () => [$('#guestNames')] },
-      allergies: { wrap: '#field-allergies', error: '#err-allergies', inputs: () => [$('#allergies')] },
+      side: { wrap: '#field-side', error: '#err-side', inputs: () => $$('input[name="side"]', form) },
+      email: { wrap: '#field-email', error: '#err-email', inputs: () => [$('#email')] },
       contact: { wrap: '#field-contact', error: '#err-contact', inputs: () => [$('#contact')] },
+      attendance: { wrap: '#field-attendance', error: '#err-attendance', inputs: () => $$('input[name="attendance"]', form) },
+      events: { wrap: '#field-events', error: '#err-events', inputs: () => events.map((ev) => ev.join) },
+      teaGuests: { wrap: '#event-tea', error: '#err-teaGuests', inputs: () => [$('#teaGuests')] },
+      weddingGuests: { wrap: '#event-wedding', error: '#err-weddingGuests', inputs: () => [$('#weddingGuests')] },
+      guestNames: { wrap: '#field-guestNames', error: '#err-guestNames', inputs: () => [$('#guestNames')] },
+      children: { wrap: '#field-children', error: '#err-children', inputs: () => [el.children] },
+      dietary: { wrap: '#field-dietary', error: '#err-dietary', inputs: () => $$('input[name="dietary"]', form) },
+      allergies: { wrap: '#field-allergies', error: '#err-allergies', inputs: () => [$('#allergies')] },
+      access: { wrap: '#field-access', error: '#err-access', inputs: () => [$('#accessOther')] },
       message: { wrap: '#field-message', error: '#err-message', inputs: () => [$('#message')] }
     };
-    const FIELD_ORDER = ['attendance', 'guestName', 'attendees', 'guestNames', 'allergies', 'contact', 'message'];
+    // Same order as the form, so the first problem gets the focus.
+    const FIELD_ORDER = ['guestName', 'side', 'email', 'contact', 'attendance', 'events', 'teaGuests', 'weddingGuests',
+      'children', 'guestNames', 'dietary', 'allergies', 'access', 'message'];
 
     const state = { busy: false, attempt: { fingerprint: '', id: '' } };
 
-    /* ---- Number-of-attendees dropdown, built from CONFIG.MAX_ATTENDEES ---- */
-    el.attendees.innerHTML = '';
-    if (max > 1) el.attendees.appendChild(new Option('Select…', ''));
-    for (let i = 1; i <= max; i += 1) el.attendees.appendChild(new Option(String(i), String(i)));
-    el.hint.textContent = max === 1
-      ? 'One guest per reply.'
-      : 'Up to ' + max + ' guests per reply, including you.';
+    /* ---- Guest-count dropdowns, built from CONFIG.MAX_ATTENDEES ---- */
+    events.forEach((ev) => {
+      ev.select.innerHTML = '';
+      for (let i = 1; i <= max; i += 1) ev.select.appendChild(new Option(String(i), String(i)));
+    });
 
-    /* ---- Show or hide the questions that only apply to guests who attend ---- */
+    // The children dropdown offers 0 up to (party size - 1): at least one adult must come with them.
+    function rebuildChildren(party) {
+      const limit = Math.max(0, party - 1);
+      if (el.children.options.length === limit + 1) return;
+      const keep = el.children.value;
+      el.children.innerHTML = '';
+      for (let i = 0; i <= limit; i += 1) el.children.appendChild(new Option(i === 0 ? 'None' : String(i), String(i)));
+      el.children.value = keep !== '' && Number(keep) <= limit ? keep : '0';
+    }
+
+    // The biggest party across the celebrations the guest ticked (0 if none).
+    function partySize() {
+      return events.reduce((best, ev) => (ev.join.checked ? Math.max(best, Number(ev.select.value) || 1) : best), 0);
+    }
+
+    /* ---- Show or hide the questions that only apply to some answers ---- */
     function updateVisibility() {
       const attending = form.elements.attendance.value === 'Attending';
-      el.attendFields.hidden = !attending;
-      el.guestsField.hidden = !(attending && Number(el.attendees.value) > 1);
+      el.attendEvents.hidden = !attending;
+      el.attendFood.hidden = !attending;
+      events.forEach((ev) => {
+        const on = attending && ev.join.checked;
+        ev.card.classList.toggle('is-on', on);
+        ev.count.hidden = !(on && max > 1);
+      });
+      const party = attending ? partySize() : 0;
+      el.guestsExtra.hidden = !(party > 1);
+      if (party > 1) rebuildChildren(party);
     }
 
     /* ---- Reading and validating ---- */
@@ -1310,15 +1498,26 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
       const text = (name) => String(data.get(name) || '').trim();
       const attendance = text('attendance');
       const attending = attendance === 'Attending';
-      const attendees = attending ? text('attendees') : '0';
+
+      const counts = {};
+      events.forEach((ev) => { counts[ev.field] = attending && ev.join.checked ? (ev.select.value || '1') : '0'; });
+      const party = Math.max(Number(counts.teaGuests), Number(counts.weddingGuests));
+      const withOthers = attending && party > 1;
+
+      const other = text('accessOther');
       return {
         attendance,
         guestName: text('guestName'),
-        attendees,
-        guestNames: attending && Number(attendees) > 1 ? text('guestNames') : '',
+        side: text('side'),
+        email: text('email'),
+        contact: text('contact'),
+        teaGuests: counts.teaGuests,
+        weddingGuests: counts.weddingGuests,
+        children: withOthers ? (text('children') || '0') : '0',
+        guestNames: withOthers ? text('guestNames') : '',
         dietary: attending ? data.getAll('dietary').join(', ') : '',
         allergies: attending ? text('allergies') : '',
-        contact: text('contact'),
+        access: attending ? data.getAll('access').concat(other ? [other] : []).join(', ') : '',
         message: text('message'),
         website: text('website') // spam trap, must stay empty
       };
@@ -1326,24 +1525,45 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
 
     function validate(v) {
       const errors = {};
-      if (v.attendance !== 'Attending' && v.attendance !== 'Declined') {
-        errors.attendance = 'Please tell us whether you can attend.';
-      }
       if (!v.guestName) errors.guestName = 'Please enter your full name.';
       else if (v.guestName.length > LIMITS.name) errors.guestName = 'Please keep your name under ' + LIMITS.name + ' characters.';
 
-      if (v.attendance === 'Attending') {
-        const n = Number(v.attendees);
-        if (v.attendees === '') errors.attendees = 'Please choose how many people will attend.';
-        else if (!Number.isInteger(n) || n < 1 || n > max) errors.attendees = 'Please choose a number from 1 to ' + max + '.';
-        if (v.guestNames.length > LIMITS.guestNames) errors.guestNames = 'Please keep this under ' + LIMITS.guestNames + ' characters.';
-        if (v.allergies.length > LIMITS.allergies) errors.allergies = 'Please keep this under ' + LIMITS.allergies + ' characters.';
+      if (v.side && ['Groom', 'Bride', 'Both'].indexOf(v.side) === -1) errors.side = 'Please choose one of the options.';
+
+      if (v.email && (v.email.length > LIMITS.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email))) {
+        errors.email = 'Please enter a valid email address, for example name@example.com.';
       }
       if (v.contact) {
         const digits = v.contact.replace(/\D/g, '');
         if (!/^[0-9+()\-.\s]+$/.test(v.contact) || digits.length < 6 || v.contact.length > LIMITS.contact) {
           errors.contact = 'Please enter a valid phone number, for example +65 9123 4567.';
         }
+      }
+
+      if (v.attendance !== 'Attending' && v.attendance !== 'Declined') {
+        errors.attendance = 'Please tell us whether you can attend.';
+      }
+
+      if (v.attendance === 'Attending') {
+        const tea = Number(v.teaGuests);
+        const wedding = Number(v.weddingGuests);
+        events.forEach((ev) => {
+          const n = Number(v[ev.field]);
+          if (!Number.isInteger(n) || n < 0 || n > max) errors[ev.field] = 'Please choose a number from 1 to ' + max + '.';
+        });
+        if (!errors.teaGuests && !errors.weddingGuests && tea + wedding === 0) {
+          errors.events = 'Please choose at least one celebration you will attend.';
+        }
+
+        const party = Math.max(tea, wedding);
+        const children = Number(v.children);
+        if (!Number.isInteger(children) || children < 0 || children > Math.max(0, party - 1)) {
+          errors.children = 'At least one adult needs to attend with the children.';
+        }
+        if (v.guestNames.length > LIMITS.guestNames) errors.guestNames = 'Please keep this under ' + LIMITS.guestNames + ' characters.';
+        if (v.dietary.length > LIMITS.dietary) errors.dietary = 'Dietary preferences are too long.';
+        if (v.allergies.length > LIMITS.allergies) errors.allergies = 'Please keep this under ' + LIMITS.allergies + ' characters.';
+        if (v.access.length > LIMITS.access) errors.access = 'Please keep this under ' + LIMITS.access + ' characters.';
       }
       if (v.message.length > LIMITS.message) errors.message = 'Please keep your message under ' + LIMITS.message + ' characters.';
       return errors;
@@ -1477,11 +1697,15 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
 
     /* ---- Confirmation ---- */
     function showThanks(values) {
-      const attending = values.attendance === 'Attending';
-      const count = Number(values.attendees);
-      if (attending) {
+      if (values.attendance === 'Attending') {
+        const parts = events
+          .filter((ev) => Number(values[ev.field]) > 0)
+          .map((ev) => {
+            const n = Number(values[ev.field]);
+            return 'the ' + ev.name + ' (' + n + (n === 1 ? ' guest' : ' guests') + ')';
+          });
         el.thanksTitle.textContent = 'Thank you, ' + values.guestName + '. We will see you there.';
-        el.thanksBody.textContent = 'Your RSVP for ' + count + (count === 1 ? ' guest' : ' guests') +
+        el.thanksBody.textContent = 'Your RSVP for ' + parts.join(' and ') +
           ' is saved. We cannot wait to celebrate with you. 期待与您相见。';
       } else {
         el.thanksTitle.textContent = 'Thank you, ' + values.guestName + '. You will be missed.';
@@ -1494,20 +1718,20 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
     }
 
     /* ---- Events ---- */
-    form.addEventListener('change', (e) => {
-      if (e.target.name === 'attendance' || e.target.id === 'attendees') updateVisibility();
-    });
+    form.addEventListener('change', updateVisibility);
 
     // Clear an error as soon as the guest starts fixing it.
     form.addEventListener('input', (e) => {
-      const name = e.target.name === 'attendance' ? 'attendance' : e.target.id;
-      if (FIELDS[name]) setFieldError(name, '');
+      const name = Object.keys(FIELDS).find((key) => FIELDS[key].inputs().indexOf(e.target) !== -1);
+      if (name) setFieldError(name, '');
+      // Changing a guest count can also settle the "children" question.
+      if (events.some((ev) => ev.select === e.target)) setFieldError('children', '');
     });
 
-    // Check the phone number when the guest leaves the field (the name is checked on submit).
+    // Check the email and phone number when the guest leaves the field (everything else is checked on submit).
     form.addEventListener('focusout', (e) => {
-      if (e.target.id !== 'contact') return;
-      setFieldError('contact', validate(readValues()).contact || '');
+      const name = e.target.id === 'email' ? 'email' : (e.target.id === 'contact' ? 'contact' : '');
+      if (name) setFieldError(name, validate(readValues())[name] || '');
     });
 
     form.addEventListener('submit', async (e) => {
@@ -1523,7 +1747,7 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
       if (Object.keys(errors).length) return;
 
       if (!isConfigured()) {
-        console.error('[RSVP] APPS_SCRIPT_URL is not set in index.html (search for APPS_SCRIPT_URL). See README.md, step 5.');
+        console.error('[RSVP] APPS_SCRIPT_URL is not set in index.html (search for APPS_SCRIPT_URL). See README.md, step 4.');
         showStatus('The RSVP form is not connected to the guest list yet, so nothing was sent. Please contact the couple directly.');
         return;
       }
@@ -1554,7 +1778,7 @@ input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus 
       clearStatus();
       el.thanks.hidden = true;
       form.hidden = false;
-      $('input[name="attendance"]', form).focus();
+      $('#guestName').focus();
     });
 
     updateVisibility();
