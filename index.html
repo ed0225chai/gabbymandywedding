@@ -1,1 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
+  <!--
+    ============================================================
+     HOW TO EDIT THIS PAGE
+    ============================================================
+     1. Every piece of text you must change is written in
+        [SQUARE BRACKETS]. Use Find (Ctrl+F / Cmd+F) and search
+        for "[" to jump from one to the next.
+     2. The countdown reads the date from the data-date="..."
+        attribute on <section id="countdown"> (search "data-date").
+     3. Chinese names are optional and currently switched off.
+        To show them, search for "CHINESE NAME", type the names in,
+        and delete the comment markers at the start and end of
+        those two lines.
+     4. Photos: put photo1.jpg ... photo4.jpg in the images/ folder.
+        No code changes are needed.
+     5. RSVP settings (Apps Script URL, max guests) are in the
+        <script> block at the bottom of this file. Search for "SETTINGS".
+    ============================================================
+  -->
+
+  <title>Gabriel &amp; Mandy — Wedding Invitation 婚礼邀请</title>
+  <meta name="description" content="You are warmly invited to the wedding of Gabriel Chang Tze Ming and Mandy Chai Jia Yi: tea ceremony on 3 December 2026 and wedding ceremony on 7 December 2026. 诚邀您见证我们的婚礼。">
+  <!-- Keeps the invitation out of search engines. Delete this line if you want it to be searchable. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FAF4E6">
+
+  <!-- Link preview (WhatsApp, Telegram, Facebook ...). og:image must be a full URL, e.g.
+       https://YOUR-USERNAME.github.io/YOUR-REPO/images/photo1.jpg  -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gabriel &amp; Mandy — Wedding Invitation 婚礼邀请">
+  <meta property="og:description" content="诚邀您见证我们的婚礼 · 3 &amp; 7 December 2026">
+  <!-- <meta property="og:image" content="https://YOUR-USERNAME.github.io/YOUR-REPO/images/photo1.jpg"> -->
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='9' fill='%239B2C28'/%3E%3Ctext x='32' y='47' font-size='40' text-anchor='middle' fill='%23FFFBF2' font-family='serif'%3E囍%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap">
+  <style>
+/* ==========================================================================
+   Chinese Wedding Invitation — styles
+   Sections: 1 Tokens · 2 Base · 3 Header · 4 Hero · 5 Countdown · 6 Section
+   heads · 7 Photos · 8 Gallery · 9 Details · 10 Buttons · 11 RSVP form ·
+   12 Footer · 13 Motion · 14 Reduced motion
+   Colours live in section 1; change them there and the whole page follows.
+   ========================================================================== */
+
+/* 1. TOKENS ------------------------------------------------------------- */
+:root {
+  --ivory: #FAF4E6;       /* page background */
+  --paper: #FFFBF2;       /* cards, light text on red */
+  --cream: #F1E6CC;       /* bands and placeholders */
+  --ink: #2F2321;         /* body text */
+  --ink-soft: #66524C;    /* secondary text */
+  --red: #9B2C28;         /* muted Chinese red */
+  --red-deep: #7A211E;
+  --gold: #C6A55F;        /* champagne gold (lines, ornaments) */
+  --gold-deep: #86672B;   /* gold that is dark enough for text */
+  --gold-pale: #EBDBAE;
+  --line: rgba(134, 103, 43, 0.32);
+
+  --display: "Libre Caslon Display", "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --text: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --zh: "Noto Serif SC", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", serif;
+
+  --header-h: 64px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --wrap: min(1120px, 100% - 2.5rem);
+}
+
+/* 2. BASE ---------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 8px);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--ink);
+  font: 400 1.0625rem/1.75 var(--text);
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Anything marked lang="zh-Hans" automatically gets the Chinese font stack. */
+:lang(zh) { font-family: var(--zh); line-height: 1.6; letter-spacing: 0.08em; }
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+p { margin: 0 0 1em; }
+[hidden] { display: none !important; }
+
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: fixed; left: 1rem; top: -4rem; z-index: 100;
+  padding: 0.6rem 1rem; background: var(--red); color: var(--paper);
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 1rem; }
+
+/* Invisible marker at the top of the page; the script at the bottom watches it to style the header after scrolling */
+#top-sentinel { position: absolute; top: 0; left: 0; width: 1px; height: 24px; pointer-events: none; }
+
+.wrap { width: var(--wrap); margin-inline: auto; }
+.wrap--narrow { width: min(660px, 100% - 2.5rem); }
+
+.section { position: relative; padding: clamp(4.5rem, 10vw, 8rem) 0; }
+
+/* 3. HEADER -------------------------------------------------------------- */
+.site-header {
+  position: fixed; inset: 0 0 auto 0; z-index: 50; height: var(--header-h);
+  transition: background-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.site-header.is-scrolled {
+  background: rgba(250, 244, 230, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 var(--line);
+}
+.site-header__bar {
+  width: var(--wrap); height: 100%; margin-inline: auto;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+
+.brand { margin-right: auto; text-decoration: none; }
+.brand__seal {
+  display: grid; place-items: center; width: 2.25rem; height: 2.25rem;
+  background: var(--red); color: var(--paper); font-size: 1.25rem; line-height: 1;
+  border-radius: 2px; transition: transform 0.3s var(--ease);
+}
+.brand:hover .brand__seal { transform: rotate(-5deg) scale(1.06); }
+
+.nav { display: flex; gap: 1.9rem; }
+.nav a {
+  padding: 0.35rem 0; font-size: 0.95rem; text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.nav a span { margin-left: 0.3rem; font-size: 0.85em; color: var(--gold-deep); }
+.nav a:hover { color: var(--red); border-color: var(--gold); }
+
+.nav-toggle {
+  display: none; position: relative; width: 2.5rem; height: 2.5rem;
+  background: transparent; border: 0; cursor: pointer;
+}
+.nav-toggle span {
+  position: absolute; left: 0.65rem; right: 0.65rem; height: 1.5px; background: var(--ink);
+  transition: transform 0.3s var(--ease), top 0.3s var(--ease);
+}
+.nav-toggle span:nth-child(1) { top: 1.05rem; }
+.nav-toggle span:nth-child(2) { top: 1.45rem; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { top: 1.25rem; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { top: 1.25rem; transform: rotate(-45deg); }
+
+.music-btn {
+  display: grid; place-items: center; width: 2.5rem; height: 2.5rem; padding: 0;
+  color: var(--red); background: transparent; border: 1px solid var(--gold);
+  border-radius: 50%; cursor: pointer;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.music-btn:hover, .music-btn.is-playing { background: var(--red); color: var(--paper); border-color: var(--red); }
+.music-btn__bars { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
+.music-btn__bars i { width: 2px; height: 100%; background: currentColor; transform: scaleY(0.3); transform-origin: bottom; }
+.music-btn.is-playing .music-btn__bars i { animation: eq 0.9s ease-in-out infinite alternate; }
+.music-btn.is-playing .music-btn__bars i:nth-child(2) { animation-delay: -0.35s; }
+.music-btn.is-playing .music-btn__bars i:nth-child(3) { animation-delay: -0.7s; }
+
+@media (max-width: 759px) {
+  .nav-toggle { display: block; }
+  .nav {
+    position: absolute; top: var(--header-h); left: 0; right: 0;
+    flex-direction: column; gap: 0; padding: 0.5rem 1.5rem 1.25rem;
+    background: rgba(250, 244, 230, 0.98); box-shadow: 0 14px 24px -18px rgba(60, 30, 20, 0.5);
+    border-bottom: 1px solid var(--line);
+    visibility: hidden; opacity: 0; transform: translateY(-6px);
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0s linear 0.3s;
+  }
+  .nav.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+  .nav a { padding: 0.9rem 0; font-size: 1.05rem; border-bottom: 1px solid var(--line); }
+}
+
+/* 4. HERO ---------------------------------------------------------------- */
+.hero {
+  position: relative; min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: calc(var(--header-h) + 1.5rem) 1.25rem 3.5rem;
+  overflow: hidden;
+  background: radial-gradient(ellipse 75% 55% at 50% 30%, var(--paper) 0, rgba(255, 251, 242, 0) 72%), var(--ivory);
+}
+
+/* Plum branches. Sway is the only looping motion on the page. */
+.branch {
+  position: absolute; z-index: 0; pointer-events: none;
+  --branch: #5b4339; --petal: #fbe6df; --petal-edge: #b04a43;
+}
+.branch svg { width: 100%; height: auto; transform-origin: var(--origin, 100% 0); animation: sway 9s ease-in-out infinite alternate; }
+.branch--tr { top: calc(var(--header-h) - 14px); right: -2.5rem; width: clamp(190px, 34vw, 470px); }
+.branch--bl { bottom: -1rem; left: -2.5rem; width: clamp(140px, 21vw, 300px); transform: rotate(180deg); }
+.branch--bl svg { animation-delay: -4s; }
+
+.branch-wood { fill: none; stroke: var(--branch); stroke-linecap: round; }
+.branch-buds circle { fill: var(--petal-edge); }
+.plum-petals circle { fill: var(--petal); stroke: var(--petal-edge); stroke-width: 0.7; }
+.plum-stamens path { fill: none; stroke: var(--gold-deep); stroke-width: 0.6; stroke-linecap: round; }
+.plum-stamens circle, .plum-core { fill: var(--gold); }
+
+.hero__stage {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: auto auto auto; align-items: center; justify-content: center;
+  gap: clamp(1.1rem, 4vw, 3.5rem);
+}
+
+/* Red paper couplets either side of the photo, as on a Chinese doorway */
+.couplet {
+  margin: 0; padding: 1.1rem 0.5rem;
+  writing-mode: vertical-rl; text-orientation: upright;
+  font-size: clamp(1.05rem, 0.6rem + 1.6vw, 1.85rem); font-weight: 600; letter-spacing: 0.4em;
+  line-height: 1.25;
+  color: var(--gold-pale); background: var(--red);
+  outline: 1px solid rgba(235, 219, 174, 0.6); outline-offset: -5px;
+  box-shadow: 0 16px 30px -18px rgba(90, 20, 16, 0.7);
+}
+
+/* The "moon gate": a round opening that frames photo 1 */
+.moon { --size: min(52vw, 44vh, 460px); --size: min(52vw, 44svh, 460px); position: relative; width: var(--size); height: var(--size); margin: 14px; }
+.moon::after {
+  content: ""; position: absolute; inset: -28px; border-radius: 50%;
+  border: 1px solid rgba(198, 165, 95, 0.4); pointer-events: none;
+}
+.moon__ring {
+  position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px);
+  max-width: none; fill: none; stroke: var(--gold); stroke-width: 0.28; pointer-events: none; overflow: visible;
+}
+.moon__ring circle {
+  stroke-dasharray: 1; stroke-dashoffset: 0;
+  transform-box: fill-box; transform-origin: center; transform: rotate(-90deg);
+}
+
+.hero__text { position: relative; z-index: 1; width: min(1200px, 100%); margin-top: clamp(1.5rem, 3.5vh, 2.5rem); text-align: center; }
+.hero__invite { margin: 0 0 0.9rem; line-height: 1.5; }
+.hero__invite span { display: block; }
+.hero__invite span:first-child { color: var(--red); font-size: 1.05rem; letter-spacing: 0.3em; margin-right: -0.3em; }
+.hero__invite span:last-child { color: var(--ink-soft); font-style: italic; font-size: 0.98rem; }
+
+/* Both sets of parents, divided by a thin gold rule */
+.parents { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 0 1.5rem; max-width: 38rem; margin: 0 auto 1.6rem; font-size: 0.98rem; line-height: 1.6; }
+.parents::after { content: ""; position: absolute; left: 50%; top: 0.2rem; bottom: 0.2rem; width: 1px; background: var(--gold); }
+.parents__side { margin: 0; text-wrap: balance; }
+.parents__side span, .parents__side strong { display: block; }
+.parents__side span { color: var(--ink-soft); }
+.parents__side strong { font-weight: 700; color: var(--red-deep); }
+
+.names {
+  margin: 0; font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.9rem, 3.9vw, 3.2rem); line-height: 1.12;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.9rem clamp(1.25rem, 3vw, 2.25rem);
+}
+.names__groom { text-align: right; }
+.names__bride { text-align: left; }
+.name-en, .name-zh { display: block; text-wrap: balance; }
+.name-zh { margin-top: 0.35rem; font-size: clamp(0.95rem, 1.5vw, 1.2rem); letter-spacing: 0.4em; color: var(--ink-soft); }
+.names__seal {
+  display: grid; place-items: center; width: 3.4rem; height: 3.4rem;
+  font-family: var(--zh); font-size: 1.9rem; line-height: 1; letter-spacing: 0;
+  color: var(--paper); background: var(--red); border-radius: 2px;
+  box-shadow: 0 0 0 3px var(--ivory), 0 0 0 4px var(--gold);
+}
+
+.hero__date {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  margin: 1.4rem 0 1.6rem; font-family: var(--display); font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  letter-spacing: 0.06em; color: var(--gold-deep);
+}
+.hero__date::before, .hero__date::after { content: ""; width: 2.5rem; height: 1px; background: var(--gold); }
+.hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+
+@media (max-width: 899px) {
+  .names { grid-template-columns: 1fr; justify-items: center; }
+  .names__groom, .names__bride { text-align: center; }
+  .names__seal { width: 2.9rem; height: 2.9rem; font-size: 1.6rem; }
+  .branch--tr { right: -3.5rem; }
+}
+
+/* 5. COUNTDOWN ----------------------------------------------------------- */
+.countdown {
+  padding: clamp(2.25rem, 5vw, 3.5rem) 1.25rem;
+  background: var(--cream); border-block: 1px solid var(--line);
+}
+.countdown__inner { width: var(--wrap); margin-inline: auto; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; text-align: center; }
+.countdown__title { margin: 0; line-height: 1.5; }
+.countdown__title span { display: block; }
+.countdown__title span:first-child { color: var(--red); font-size: 1.05rem; letter-spacing: 0.3em; margin-right: -0.3em; }
+.countdown__title span:last-child { color: var(--ink-soft); font-style: italic; }
+.countdown__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(580px, 100%); }
+.countdown__cell { position: relative; display: flex; flex-direction: column; align-items: center; padding: 0.25rem 0.4rem; }
+.countdown__cell + .countdown__cell::before { content: ""; position: absolute; left: 0; top: 14%; bottom: 14%; width: 1px; background: var(--line); }
+.countdown__num { font-family: var(--display); font-size: clamp(2.2rem, 8vw, 3.7rem); line-height: 1.15; color: var(--red); font-variant-numeric: tabular-nums; }
+.countdown__label { font-size: 0.85rem; color: var(--ink-soft); }
+.countdown__label span { margin-right: 0.15rem; color: var(--gold-deep); }
+.countdown__done { margin: 0; font-family: var(--display); font-size: 1.3rem; }
+.countdown__done span { display: block; color: var(--red); font-size: 1.6rem; letter-spacing: 0.3em; }
+
+/* 6. SECTION HEADS ------------------------------------------------------- */
+.section-head { margin-bottom: clamp(2.75rem, 6vw, 4.75rem); text-align: center; }
+.section-head h2 { margin: 0; font-weight: 400; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+.section-head__zh {
+  font-size: clamp(2rem, 6vw, 3.1rem); font-weight: 600; line-height: 1.2;
+  letter-spacing: 0.28em; margin-right: -0.28em; color: var(--red);
+}
+.section-head__en { font-family: var(--display); font-size: clamp(1.35rem, 3vw, 1.75rem); letter-spacing: 0.04em; color: var(--ink-soft); }
+.section-head__lede { max-width: 34rem; margin: 1.25rem auto 0; color: var(--ink-soft); }
+.orn { width: 150px; height: auto; margin: 1.1rem auto 0; fill: none; stroke: var(--gold); stroke-width: 1; }
+
+.section-head--light .section-head__zh { color: var(--gold-pale); }
+.section-head--light .section-head__en { color: rgba(255, 251, 242, 0.85); }
+
+/* 7. PHOTOS (shared by hero + gallery) -----------------------------------
+   Each .photo shows a labelled placeholder until its image loads.
+   If the image file is missing, the placeholder simply stays visible. */
+.photo {
+  position: relative; overflow: hidden;
+  background: repeating-linear-gradient(135deg, rgba(198, 165, 95, 0.16) 0 10px, rgba(198, 165, 95, 0) 10px 20px), var(--cream);
+}
+.photo__ph {
+  position: absolute; inset: 0; display: grid; place-content: center; padding: 1rem;
+  text-align: center; font-size: 0.85rem; line-height: 1.5; color: var(--gold-deep);
+  transition: opacity 0.6s var(--ease);
+}
+.photo__ph b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.5rem; color: var(--red); }
+.photo img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: var(--pos, 50% 50%);
+  transition: opacity 1s var(--ease), transform 1.4s var(--ease);
+}
+.js .photo img { opacity: 0; }
+.js .photo img.is-loaded { opacity: 1; }
+.photo.has-image .photo__ph { opacity: 0; }
+.photo.is-missing img { display: none; }
+@media (hover: hover) {
+  .photo:hover img { transform: scale(1.045); }
+}
+
+.moon__photo { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 24px 50px -24px rgba(70, 28, 20, 0.55); }
+
+/* A thin gold outline offset behind a photo */
+.frame { --fx: 14px; --fy: 14px; position: relative; isolation: isolate; width: 100%; }
+.frame::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  border: 1px solid var(--gold); border-radius: var(--r, 0);
+  transform: translate(var(--fx), var(--fy));
+}
+.frame .photo { z-index: 1; aspect-ratio: var(--ratio, 4/5); border-radius: var(--r, 0); }
+.frame--arch { --r: 999px 999px 0 0; max-width: 460px; }
+
+/* 8. PHOTO GALLERY ------------------------------------------------------- */
+.gallery__grid { list-style: none; margin: 0; padding: 0 14px 14px 0; display: grid; gap: 2.75rem; }
+.gallery__item { min-width: 0; }
+.gallery .frame { --fx: 12px; --fy: 12px; }
+.gallery .frame--arch { max-width: none; }
+
+/* Phones: one column, photos alternate left and right */
+@media (max-width: 559px) {
+  .gallery__item { width: 86%; }
+  .gallery__item:nth-child(even) { justify-self: end; }
+}
+/* Tablets: two columns, the third photo centred underneath */
+@media (min-width: 560px) and (max-width: 899px) {
+  .gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.75rem 2rem; align-items: start; }
+  .gallery__item:nth-child(2) { margin-top: 3rem; }
+  .gallery__item:nth-child(3) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 1rem); }
+}
+/* Desktop: three columns, the middle photo sits lower */
+@media (min-width: 900px) {
+  .gallery__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; align-items: start; padding-right: 18px; padding-bottom: 18px; }
+  .gallery .frame { --fx: 16px; --fy: 16px; }
+  .gallery__item:nth-child(2) { margin-top: 4.5rem; }
+  .gallery__item:nth-child(3) { margin-top: 1.5rem; }
+}
+
+/* 9. WEDDING DETAILS ----------------------------------------------------- */
+.details { position: relative; z-index: 1; padding: clamp(5rem, 10vw, 8rem) 0; color: var(--paper); background: var(--red); }
+.details::before, .details::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 14px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='14' viewBox='0 0 56 14'%3E%3Cpath d='M0 14A28 14 0 0 1 56 14Z' fill='%239B2C28'/%3E%3C/svg%3E") repeat-x 0 0 / 56px 14px;
+}
+.details::before { top: 1px; transform: translateY(-100%); }
+.details::after { bottom: 1px; transform: translateY(100%) scaleY(-1); }
+.details :focus-visible { outline-color: var(--gold-pale); }
+
+.invite-card {
+  position: relative; max-width: 820px; margin-inline: auto; color: var(--ink); background: var(--paper);
+  padding: clamp(2rem, 5vw, 3.75rem) clamp(1.5rem, 5vw, 4rem);
+  box-shadow: 0 34px 60px -30px rgba(40, 8, 6, 0.7);
+}
+.invite-card::before { content: ""; position: absolute; inset: 10px; border: 1px solid var(--gold); pointer-events: none; }
+.invite-card::after { content: ""; position: absolute; inset: 15px; border: 1px solid rgba(198, 165, 95, 0.4); pointer-events: none; }
+.invite-card :focus-visible { outline-color: var(--red); }
+
+.detail-list { margin: 0; }
+.detail-row { display: grid; grid-template-columns: 5.4rem minmax(0, 1fr); gap: 0.25rem 1.25rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
+.detail-row:first-child { border-top: 0; padding-top: 0.25rem; }
+.detail-row:last-child { padding-bottom: 0.25rem; }
+.detail-row dt { display: flex; flex-direction: column; gap: 0.1rem; }
+.detail-row__zh { font-size: 1.2rem; font-weight: 600; letter-spacing: 0.18em; color: var(--red); }
+.detail-row__en { font-size: 0.85rem; color: var(--ink-soft); }
+.detail-row dd { margin: 0; font-size: 1.1rem; overflow-wrap: anywhere; }
+.detail-row__date { display: block; font-family: var(--display); font-size: clamp(1.45rem, 4.2vw, 2.2rem); line-height: 1.25; }
+.detail-row__time { display: block; margin-top: 0.15rem; font-size: 1.15rem; }
+.detail-row__time span { margin-left: 0.4rem; font-size: 0.9em; color: var(--gold-deep); }
+.detail-row__venue { display: block; margin-top: 1.1rem; font-family: var(--display); font-size: 1.45rem; line-height: 1.3; }
+.detail-row__address { display: block; margin: 0.25rem 0 1.1rem; color: var(--ink-soft); }
+
+@media (min-width: 640px) {
+  .detail-row { grid-template-columns: 8.5rem minmax(0, 1fr); gap: 0.25rem 2rem; }
+  .detail-row__zh { font-size: 1.5rem; }
+}
+
+/* 10. BUTTONS ------------------------------------------------------------ */
+.btn {
+  --b: var(--red);
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  padding: 0.9rem 2rem; font: inherit; font-size: 1rem; letter-spacing: 0.04em; line-height: 1.3;
+  color: var(--ink); text-decoration: none; background: transparent;
+  border: 1px solid var(--b); border-radius: 2px; cursor: pointer;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease),
+              transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.btn--primary { color: var(--paper); background: var(--red); }
+.btn--primary:hover { background: var(--red-deep); border-color: var(--red-deep); transform: translateY(-1px); box-shadow: 0 12px 24px -14px rgba(122, 33, 30, 0.85); }
+.btn--ghost { --b: var(--gold-deep); color: var(--gold-deep); }
+.btn--ghost:hover { color: var(--paper); background: var(--gold-deep); }
+.btn--outline { color: var(--red); }
+.btn--outline:hover { color: var(--paper); background: var(--red); }
+.btn--small { padding: 0.6rem 1.15rem; font-size: 0.95rem; }
+.btn--block { width: 100%; }
+.btn:disabled { opacity: 0.75; cursor: progress; transform: none; box-shadow: none; }
+
+.btn__spinner {
+  display: none; width: 1em; height: 1em; border-radius: 50%;
+  border: 2px solid rgba(255, 251, 242, 0.4); border-top-color: var(--paper);
+  animation: spin 0.8s linear infinite;
+}
+.btn[aria-busy="true"] .btn__spinner { display: inline-block; }
+
+/* 11. RSVP FORM ---------------------------------------------------------- */
+.rsvp { overflow: hidden; background: radial-gradient(ellipse 70% 50% at 50% 0, var(--paper) 0, rgba(255, 251, 242, 0) 70%), var(--ivory); }
+.rsvp > .wrap { position: relative; z-index: 1; }
+.branch--rsvp { top: 0.5rem; right: -2.5rem; width: clamp(160px, 24vw, 330px); opacity: 0.9; }
+
+.rsvp__panel {
+  padding: clamp(1.5rem, 5vw, 3rem);
+  background: var(--paper); border: 1px solid var(--line);
+  box-shadow: 0 30px 50px -36px rgba(80, 40, 20, 0.5);
+}
+
+.form__note { margin: 0 0 1.5rem; font-size: 0.9rem; color: var(--ink-soft); }
+.req { color: var(--red); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.form__status {
+  margin: 0 0 1.5rem; padding: 0.9rem 1.1rem; font-size: 0.98rem;
+  color: var(--red-deep); background: #f8e7e2; border-left: 3px solid var(--red);
+}
+
+.field { min-width: 0; margin: 0 0 1.4rem; padding: 0; border: 0; }
+.field > label, .field > legend { display: block; margin: 0 0 0.45rem; padding: 0; font-size: 0.98rem; }
+.field label [lang], .field legend [lang] { margin-left: 0.3rem; font-size: 0.9em; color: var(--gold-deep); }
+
+input[type="text"], input[type="tel"], select, textarea {
+  display: block; width: 100%; padding: 0.8rem 0.95rem;
+  font: inherit; font-size: 1rem; color: var(--ink);
+  background: var(--ivory); border: 1px solid #d6c59a; border-radius: 2px;
+  -webkit-appearance: none; appearance: none;
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), background-color 0.25s var(--ease);
+}
+textarea { resize: vertical; min-height: 3.2rem; }
+select {
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2386672B' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 1rem center;
+}
+input[type="text"]:hover, input[type="tel"]:hover, select:hover, textarea:hover { border-color: var(--gold); }
+input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--red); background: #fff; box-shadow: 0 0 0 3px rgba(155, 44, 40, 0.14);
+}
+[aria-invalid="true"] { border-color: var(--red) !important; background: #fdf1ee !important; }
+
+.field__hint { margin: 0.4rem 0 0; font-size: 0.88rem; color: var(--ink-soft); }
+.field__error { margin: 0.4rem 0 0; font-size: 0.9rem; color: var(--red-deep); }
+
+/* Attending / declining choice */
+.choice__options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.choice__opt { position: relative; display: block; cursor: pointer; }
+.choice__opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.choice__card {
+  display: flex; flex-direction: column; align-items: center; gap: 0.1rem; padding: 1.1rem 0.5rem;
+  text-align: center; background: var(--ivory); border: 1px solid var(--line);
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.choice__zh { font-size: 1.35rem; font-weight: 600; letter-spacing: 0.18em; margin-right: -0.18em; color: var(--red); transition: color 0.3s var(--ease); }
+.choice__en { font-size: 0.92rem; color: var(--ink-soft); transition: color 0.3s var(--ease); }
+.choice__opt:hover .choice__card { border-color: var(--gold); }
+.choice__opt input:checked + .choice__card { background: var(--red); border-color: var(--red); box-shadow: 0 14px 26px -16px rgba(122, 33, 30, 0.9); }
+.choice__opt input:checked + .choice__card .choice__zh,
+.choice__opt input:checked + .choice__card .choice__en { color: var(--paper); }
+.choice__opt input:focus-visible + .choice__card { outline: 2px solid var(--red); outline-offset: 3px; }
+.choice.has-error .choice__card { border-color: var(--red); background: #fdf1ee; }
+.choice.has-error .choice__opt input:checked + .choice__card { background: var(--red); }
+
+/* Dietary chips */
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { position: relative; cursor: pointer; }
+.chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.chip span {
+  display: block; padding: 0.4rem 0.95rem; font-size: 0.95rem; background: var(--ivory);
+  border: 1px solid #d6c59a; border-radius: 999px;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.chip:hover span { border-color: var(--gold-deep); }
+.chip input:checked + span { color: var(--paper); background: var(--red); border-color: var(--red); }
+.chip input:focus-visible + span { outline: 2px solid var(--red); outline-offset: 2px; }
+
+.form__attend { animation: rise 0.6s var(--ease) both; }
+.form__fine { margin: 0.9rem 0 0; font-size: 0.88rem; text-align: center; color: var(--ink-soft); }
+
+/* Confirmation */
+.thanks { padding: 1rem 0; text-align: center; outline: none; animation: rise 0.7s var(--ease) both; }
+.thanks__seal {
+  display: grid; place-items: center; width: 4rem; height: 4rem; margin: 0 auto 1.25rem;
+  font-size: 2.2rem; line-height: 1; letter-spacing: 0;
+  color: var(--paper); background: var(--red); border-radius: 2px;
+  box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px var(--gold);
+  animation: stamp 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.15s both;
+}
+.thanks__title { margin: 0 0 0.75rem; font-family: var(--display); font-weight: 400; font-size: clamp(1.7rem, 4.5vw, 2.3rem); line-height: 1.25; }
+.thanks__body { max-width: 28rem; margin: 0 auto 1.75rem; color: var(--ink-soft); }
+
+/* 12. FOOTER ------------------------------------------------------------- */
+.site-footer { padding: 3.5rem 1.25rem 4rem; text-align: center; background: var(--cream); border-top: 1px solid var(--line); }
+.site-footer__seal {
+  display: inline-grid; place-items: center; width: 2.6rem; height: 2.6rem; font-size: 1.4rem; line-height: 1; letter-spacing: 0;
+  color: var(--paper); background: var(--red); border-radius: 2px;
+}
+.site-footer__names { margin: 1.1rem 0 0.1rem; font-family: var(--display); font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.3; }
+.site-footer__date { margin: 0 0 0.5rem; color: var(--gold-deep); letter-spacing: 0.06em; }
+.site-footer__zh { margin: 0; color: var(--ink-soft); font-size: 0.95rem; }
+
+/* 13. MOTION --------------------------------------------------------------
+   Page-load sequence in the hero: the ring is drawn, the photo appears, the
+   couplets and names follow, then the 囍 seal is "stamped". Everything is
+   CSS-only. The base styles above are the final state, so removing an
+   animation (or turning motion off) never hides content.                      */
+@keyframes rise  { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fade  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes draw  { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes stamp { 0% { opacity: 0; transform: scale(1.55) rotate(-9deg); } 60% { opacity: 1; transform: scale(0.96) rotate(1deg); } 100% { opacity: 1; transform: none; } }
+@keyframes sway  { from { rotate: -1deg; } to { rotate: 1.5deg; } }
+@keyframes eq    { from { transform: scaleY(0.25); } to { transform: scaleY(1); } }
+@keyframes spin  { to { transform: rotate(360deg); } }
+
+.moon__ring circle { animation: draw 1.7s var(--ease) 0.1s both; }
+.moon__photo       { animation: fade 1.3s var(--ease) 0.25s both; }
+.couplet           { animation: rise 1s var(--ease) 0.75s both; }
+.parents, .hero__invite { animation: rise 0.9s var(--ease) 0.95s both; }
+.names__groom, .names__bride { animation: rise 0.9s var(--ease) 1.1s both; }
+.names__seal       { animation: stamp 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) 1.6s both; }
+.hero__date        { animation: rise 0.9s var(--ease) 1.7s both; }
+.hero__actions     { animation: rise 0.9s var(--ease) 1.85s both; }
+
+/* Scroll reveals (the class is added by the script below using IntersectionObserver).
+   Only applied when JavaScript is running, so content never stays hidden. */
+.js .reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.9s var(--ease) var(--d, 0ms), transform 0.9s var(--ease) var(--d, 0ms);
+}
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* 14. REDUCED MOTION ----------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
+  }
+  .branch svg { animation: none; }
+  .js .reveal { opacity: 1; transform: none; }
+  .js .photo img { opacity: 1; }
+  .photo:hover img { transform: none; }
+}
+
+  </style>
+
+  <!-- Lets the CSS know JavaScript is available (so scroll reveals do not hide content when JS is off). -->
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body>
+
+  <!-- ============ Decorative SVG sprites (plum blossom + branch). Used with <use href="#..."> ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- A single five-petal plum blossom -->
+      <symbol id="plum" viewBox="-20 -20 40 40">
+        <g class="plum-petals">
+          <circle cx="0" cy="-8.6" r="6.6"/>
+          <circle cx="0" cy="-8.6" r="6.6" transform="rotate(72)"/>
+          <circle cx="0" cy="-8.6" r="6.6" transform="rotate(144)"/>
+          <circle cx="0" cy="-8.6" r="6.6" transform="rotate(216)"/>
+          <circle cx="0" cy="-8.6" r="6.6" transform="rotate(288)"/>
+        </g>
+        <g class="plum-stamens">
+          <path d="M0 0V-6.4M0 0L6.1-2M0 0L3.8 5.2M0 0L-3.8 5.2M0 0L-6.1-2"/>
+          <circle cx="0" cy="-6.8" r="0.9"/>
+          <circle cx="6.5" cy="-2.1" r="0.9"/>
+          <circle cx="4" cy="5.5" r="0.9"/>
+          <circle cx="-4" cy="5.5" r="0.9"/>
+          <circle cx="-6.5" cy="-2.1" r="0.9"/>
+        </g>
+        <circle class="plum-core" r="2.1"/>
+      </symbol>
+
+      <!-- A flowering branch entering from the top-right corner -->
+      <symbol id="branch" viewBox="0 0 300 220">
+        <g class="branch-wood">
+          <path d="M304 12C262 24 228 48 192 74S118 120 66 112" stroke-width="4.6"/>
+          <path d="M238 36C240 62 224 88 206 104" stroke-width="2.8"/>
+          <path d="M192 74C174 58 152 52 128 52" stroke-width="2.6"/>
+          <path d="M122 114C114 138 94 156 66 162" stroke-width="2.6"/>
+          <path d="M150 96C152 112 146 128 134 140" stroke-width="2"/>
+        </g>
+        <g class="branch-buds">
+          <circle cx="104" cy="78" r="3.4"/>
+          <circle cx="160" cy="40" r="3"/>
+          <circle cx="222" cy="128" r="3.2"/>
+          <circle cx="134" cy="142" r="3"/>
+          <circle cx="262" cy="52" r="3"/>
+        </g>
+        <use href="#plum" x="49"  y="95"  width="36" height="36"/>
+        <use href="#plum" x="113" y="37"  width="32" height="32" transform="rotate(24 129 53)"/>
+        <use href="#plum" x="188" y="88"  width="34" height="34" transform="rotate(-18 205 105)"/>
+        <use href="#plum" x="53"  y="149" width="28" height="28" transform="rotate(40 67 163)"/>
+        <use href="#plum" x="223" y="22"  width="30" height="30" transform="rotate(12 238 37)"/>
+        <use href="#plum" x="161" y="62"  width="24" height="24" transform="rotate(-30 173 74)"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="top-sentinel" aria-hidden="true"></div>
+
+  <!-- ============================== HEADER ============================== -->
+  <header class="site-header" id="site-header">
+    <div class="site-header__bar">
+      <a class="brand" href="#top" aria-label="Back to top">
+        <span class="brand__seal" lang="zh-Hans">囍</span>
+      </a>
+
+      <nav class="nav" id="site-nav" aria-label="Main">
+        <a href="#gallery">Photos <span lang="zh-Hans">相册</span></a>
+        <a href="#details">Details <span lang="zh-Hans">详情</span></a>
+        <a href="#rsvp">RSVP <span lang="zh-Hans">回复</span></a>
+      </nav>
+
+      <!-- OPTIONAL MUSIC: hidden until audio/music.mp3 exists. To remove, delete this button and the <audio> tag below. -->
+      <button class="music-btn" id="music-toggle" type="button" aria-pressed="false" aria-label="Play background music" hidden>
+        <span class="music-btn__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <audio id="bgm" src="audio/music.mp3" loop preload="none"></audio>
+
+  <main id="main">
+
+    <!-- ============================== HERO ============================== -->
+    <section class="hero" id="top" aria-labelledby="couple-names">
+      <div class="branch branch--tr" aria-hidden="true">
+        <svg viewBox="0 0 300 220"><use href="#branch"/></svg>
+      </div>
+      <div class="branch branch--bl" aria-hidden="true">
+        <svg viewBox="0 0 300 220"><use href="#branch"/></svg>
+      </div>
+
+      <div class="hero__stage">
+        <p class="couplet couplet--left" lang="zh-Hans">花好月圆</p>
+
+        <!-- PHOTO 1 — the hero image, shown inside a round "moon gate" -->
+        <figure class="moon">
+          <div class="photo moon__photo">
+            <span class="photo__ph" aria-hidden="true"><b>Photo 1</b>images/photo1.jpg</span>
+            <img src="images/photo1.jpg" alt="Gabriel and Mandy" fetchpriority="high" decoding="async" style="--pos: 50% 35%">
+          </div>
+          <svg class="moon__ring" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+            <circle cx="50" cy="50" r="49.5" pathLength="1"/>
+          </svg>
+        </figure>
+
+        <p class="couplet couplet--right" lang="zh-Hans">百年好合</p>
+      </div>
+
+      <div class="hero__text">
+        <div class="parents">
+          <p class="parents__side">
+            <span>Mr. &amp; Mrs.</span>
+            <strong>Chang Peng Soon</strong>
+            <strong>Felicia Ho Lee Phing</strong>
+          </p>
+          <p class="parents__side">
+            <span>Mr. &amp; Mrs.</span>
+            <strong>Chai Min Thung</strong>
+            <strong>Liew Suk Nee</strong>
+          </p>
+        </div>
+
+        <p class="hero__invite">
+          <span lang="zh-Hans">诚邀您见证我们的婚礼</span>
+          <span>We joyfully announce the wedding of our children</span>
+        </p>
+
+        <h1 class="names" id="couple-names">
+          <span class="names__groom">
+            <span class="name-en">Gabriel Chang Tze Ming</span>
+            <!-- <span class="name-zh" lang="zh-Hans">[GROOM CHINESE NAME]</span> -->
+          </span>
+          <span class="names__seal" lang="zh-Hans" aria-hidden="true">囍</span>
+          <span class="sr-only">and</span>
+          <span class="names__bride">
+            <span class="name-en">Mandy Chai Jia Yi</span>
+            <!-- <span class="name-zh" lang="zh-Hans">[BRIDE CHINESE NAME]</span> -->
+          </span>
+        </h1>
+
+        <p class="hero__date">3 &amp; 7 December 2026</p>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#details">Wedding details</a>
+          <a class="btn btn--ghost" href="#rsvp">RSVP</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== COUNTDOWN ==============================
+         EDIT: data-date uses the format YYYY-MM-DDTHH:MM:SS+08:00
+         (+08:00 is Singapore / Malaysia time; change it for other time zones).
+         It counts down to the wedding ceremony (Mon 7 Dec 2026, 6:30 PM).
+         To count down to the tea ceremony instead, use 2026-12-03T09:00:00+08:00
+         and change the wording below. -->
+    <section class="countdown" id="countdown" data-date="2026-12-07T18:30:00+08:00" aria-label="Countdown to the wedding">
+      <div class="countdown__inner reveal">
+        <p class="countdown__title">
+          <span lang="zh-Hans">距离婚宴还有</span>
+          <span>Until the wedding ceremony</span>
+        </p>
+        <div class="countdown__grid" role="timer" aria-label="Time remaining">
+          <div class="countdown__cell"><span class="countdown__num" data-unit="days">--</span><span class="countdown__label"><span lang="zh-Hans">天</span> days</span></div>
+          <div class="countdown__cell"><span class="countdown__num" data-unit="hours">--</span><span class="countdown__label"><span lang="zh-Hans">时</span> hours</span></div>
+          <div class="countdown__cell"><span class="countdown__num" data-unit="minutes">--</span><span class="countdown__label"><span lang="zh-Hans">分</span> minutes</span></div>
+          <div class="countdown__cell"><span class="countdown__num" data-unit="seconds">--</span><span class="countdown__label"><span lang="zh-Hans">秒</span> seconds</span></div>
+        </div>
+        <p class="countdown__done" hidden><span lang="zh-Hans">我们结婚啦</span> We are married. Thank you for celebrating with us.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PRE-WEDDING PHOTOS ==============================
+         Photos 2, 3 and 4. Each photo is shown at its own shape automatically (nothing is cut off,
+         except very wide or very tall photos). To change which part of a photo stays in view,
+         edit the --pos value on its <img> (for example 50% 20% keeps more of the top). -->
+    <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <h2 id="gallery-title">
+            <span class="section-head__zh" lang="zh-Hans">婚纱留影</span>
+            <span class="section-head__en">Pre-wedding portraits</span>
+          </h2>
+          <svg class="orn" viewBox="0 0 160 26" aria-hidden="true" focusable="false"><path d="M0 13H62M98 13H160"/><use href="#plum" x="67" y="0" width="26" height="26"/></svg>
+        </header>
+
+        <ul class="gallery__grid">
+          <!-- PHOTO 2 -->
+          <li class="gallery__item">
+            <div class="frame frame--arch reveal" data-auto-ratio>
+              <div class="photo">
+                <span class="photo__ph" aria-hidden="true"><b>Photo 2</b>images/photo2.jpg</span>
+                <img src="images/photo2.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 30%">
+              </div>
+            </div>
+          </li>
+
+          <!-- PHOTO 3 -->
+          <li class="gallery__item">
+            <div class="frame reveal" data-auto-ratio style="--d: 140ms">
+              <div class="photo">
+                <span class="photo__ph" aria-hidden="true"><b>Photo 3</b>images/photo3.jpg</span>
+                <img src="images/photo3.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 40%">
+              </div>
+            </div>
+          </li>
+
+          <!-- PHOTO 4 -->
+          <li class="gallery__item">
+            <div class="frame frame--arch reveal" data-auto-ratio style="--d: 280ms">
+              <div class="photo">
+                <span class="photo__ph" aria-hidden="true"><b>Photo 4</b>images/photo4.jpg</span>
+                <img src="images/photo4.jpg" alt="Gabriel and Mandy, pre-wedding portrait" loading="lazy" decoding="async" style="--pos: 50% 35%">
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== WEDDING DETAILS ============================== -->
+    <section class="details" id="details" aria-labelledby="details-title">
+      <div class="wrap">
+        <header class="section-head section-head--light reveal">
+          <h2 id="details-title">
+            <span class="section-head__zh" lang="zh-Hans">诚邀莅临</span>
+            <span class="section-head__en">Join us</span>
+          </h2>
+        </header>
+
+        <div class="invite-card reveal">
+          <dl class="detail-list">
+            <!-- EVENT 1: tea ceremony. The directions link is built automatically from the address
+                 inside the same row (see the script at the bottom of this file). -->
+            <div class="detail-row" data-venue>
+              <dt><span class="detail-row__zh" lang="zh-Hans">敬茶</span><span class="detail-row__en">Tea ceremony</span></dt>
+              <dd>
+                <span class="detail-row__date">Thursday, 3 December 2026</span>
+                <span class="detail-row__time">9:00 AM <span lang="zh-Hans">上午九时</span></span>
+                <span class="detail-row__venue">[TEA CEREMONY VENUE NAME]</span>
+                <span class="detail-row__address">[TEA CEREMONY VENUE ADDRESS]</span>
+                <a class="btn btn--small btn--outline js-directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=%5BTEA%20CEREMONY%20VENUE%20ADDRESS%5D" target="_blank" rel="noopener" aria-label="Get directions in Google Maps">Get directions</a>
+              </dd>
+            </div>
+            <!-- EVENT 2: wedding ceremony (evening) -->
+            <div class="detail-row" data-venue>
+              <dt><span class="detail-row__zh" lang="zh-Hans">婚宴</span><span class="detail-row__en">Wedding ceremony</span></dt>
+              <dd>
+                <span class="detail-row__date">Monday, 7 December 2026</span>
+                <span class="detail-row__time">6:30 PM <span lang="zh-Hans">晚上六时半</span></span>
+                <span class="detail-row__venue">[WEDDING CEREMONY VENUE NAME]</span>
+                <span class="detail-row__address">[WEDDING CEREMONY VENUE ADDRESS]</span>
+                <a class="btn btn--small btn--outline js-directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=%5BWEDDING%20CEREMONY%20VENUE%20ADDRESS%5D" target="_blank" rel="noopener" aria-label="Get directions in Google Maps">Get directions</a>
+              </dd>
+            </div>
+            <div class="detail-row">
+              <dt><span class="detail-row__zh" lang="zh-Hans">着装</span><span class="detail-row__en">Dress code</span></dt>
+              <dd>[DRESS CODE]</dd>
+            </div>
+            <div class="detail-row">
+              <dt><span class="detail-row__zh" lang="zh-Hans">提示</span><span class="detail-row__en">Notes</span></dt>
+              <dd>[ADDITIONAL NOTES: PARKING, CHILDREN, GIFTS, ETC.]</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== RSVP ============================== -->
+    <section class="section rsvp" id="rsvp" aria-labelledby="rsvp-title">
+      <div class="branch branch--rsvp" aria-hidden="true">
+        <svg viewBox="0 0 300 220"><use href="#branch"/></svg>
+      </div>
+
+      <div class="wrap wrap--narrow">
+        <header class="section-head reveal">
+          <h2 id="rsvp-title">
+            <span class="section-head__zh" lang="zh-Hans">敬请回复</span>
+            <span class="section-head__en">Kindly reply</span>
+          </h2>
+          <svg class="orn" viewBox="0 0 160 26" aria-hidden="true" focusable="false"><path d="M0 13H62M98 13H160"/><use href="#plum" x="67" y="0" width="26" height="26"/></svg>
+          <p class="section-head__lede">Please tell us by [RSVP DEADLINE] whether you can join us.</p>
+        </header>
+
+        <div class="rsvp__panel reveal" id="rsvp-panel">
+
+          <form id="rsvp-form" class="form" novalidate>
+            <p class="form__note">Fields marked <span class="req" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+
+            <!-- Error banner for problems that are not tied to one field (network, server...) -->
+            <div class="form__status" id="form-status" role="alert" hidden></div>
+
+            <!-- Spam trap: real guests never see or fill this field -->
+            <div class="hp" aria-hidden="true">
+              <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+            </div>
+
+            <fieldset class="field choice" id="field-attendance">
+              <legend>Will you join us? <span lang="zh-Hans">您是否出席</span> <span class="req" aria-hidden="true">*</span></legend>
+              <div class="choice__options">
+                <label class="choice__opt">
+                  <input type="radio" name="attendance" value="Attending" required>
+                  <span class="choice__card">
+                    <span class="choice__zh" lang="zh-Hans">欣然赴约</span>
+                    <span class="choice__en">Joyfully accept</span>
+                  </span>
+                </label>
+                <label class="choice__opt">
+                  <input type="radio" name="attendance" value="Declined" required>
+                  <span class="choice__card">
+                    <span class="choice__zh" lang="zh-Hans">遗憾缺席</span>
+                    <span class="choice__en">Regretfully decline</span>
+                  </span>
+                </label>
+              </div>
+              <p class="field__error" id="err-attendance" hidden></p>
+            </fieldset>
+
+            <div class="field" id="field-guestName">
+              <label for="guestName">Full name <span lang="zh-Hans">姓名</span> <span class="req" aria-hidden="true">*</span></label>
+              <input id="guestName" name="guestName" type="text" autocomplete="name" maxlength="100" required aria-describedby="err-guestName">
+              <p class="field__error" id="err-guestName" hidden></p>
+            </div>
+
+            <!-- Shown only when the guest is attending -->
+            <div class="form__attend" id="attend-fields" hidden>
+              <div class="field" id="field-attendees">
+                <label for="attendees">Number of attendees, including you <span lang="zh-Hans">出席人数</span> <span class="req" aria-hidden="true">*</span></label>
+                <select id="attendees" name="attendees" aria-describedby="attendees-hint err-attendees"></select>
+                <p class="field__hint" id="attendees-hint"></p>
+                <p class="field__error" id="err-attendees" hidden></p>
+              </div>
+
+              <div class="field" id="guests-field" hidden>
+                <label for="guestNames">Additional guest names <span lang="zh-Hans">同行宾客姓名</span></label>
+                <textarea id="guestNames" name="guestNames" rows="2" maxlength="500" aria-describedby="err-guestNames"></textarea>
+                <p class="field__error" id="err-guestNames" hidden></p>
+              </div>
+
+              <fieldset class="field" id="field-dietary">
+                <legend>Dietary preferences <span lang="zh-Hans">饮食偏好</span></legend>
+                <div class="chips">
+                  <label class="chip"><input type="checkbox" name="dietary" value="Vegetarian"><span>Vegetarian</span></label>
+                  <label class="chip"><input type="checkbox" name="dietary" value="Vegan"><span>Vegan</span></label>
+                  <label class="chip"><input type="checkbox" name="dietary" value="Halal"><span>Halal</span></label>
+                  <label class="chip"><input type="checkbox" name="dietary" value="Pescatarian"><span>Pescatarian</span></label>
+                  <label class="chip"><input type="checkbox" name="dietary" value="No pork"><span>No pork</span></label>
+                  <label class="chip"><input type="checkbox" name="dietary" value="No beef"><span>No beef</span></label>
+                </div>
+              </fieldset>
+
+              <div class="field" id="field-allergies">
+                <label for="allergies">Allergies or special dietary requirements <span lang="zh-Hans">过敏或特殊饮食需求</span></label>
+                <textarea id="allergies" name="allergies" rows="2" maxlength="500" aria-describedby="err-allergies"></textarea>
+                <p class="field__error" id="err-allergies" hidden></p>
+              </div>
+            </div>
+
+            <div class="field" id="field-contact">
+              <label for="contact">Contact number <span lang="zh-Hans">联络电话</span></label>
+              <input id="contact" name="contact" type="tel" autocomplete="tel" inputmode="tel" maxlength="25" aria-describedby="err-contact">
+              <p class="field__error" id="err-contact" hidden></p>
+            </div>
+
+            <div class="field" id="field-message">
+              <label for="message">Message to the couple <span lang="zh-Hans">祝福留言</span></label>
+              <textarea id="message" name="message" rows="4" maxlength="1000" aria-describedby="err-message"></textarea>
+              <p class="field__error" id="err-message" hidden></p>
+            </div>
+
+            <button class="btn btn--primary btn--block" type="submit" id="submit-btn">
+              <span class="btn__spinner" aria-hidden="true"></span>
+              <span class="btn__label">Submit RSVP</span>
+            </button>
+            <p class="form__fine">Your reply goes to the couple's private guest list.</p>
+          </form>
+
+          <!-- Shown after the server confirms the RSVP was saved -->
+          <div class="thanks" id="thanks" tabindex="-1" hidden>
+            <div class="thanks__seal" lang="zh-Hans" aria-hidden="true">囍</div>
+            <h3 class="thanks__title" id="thanks-title"></h3>
+            <p class="thanks__body" id="thanks-body"></p>
+            <button class="btn btn--ghost" type="button" id="rsvp-again">Send another reply</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="site-footer">
+    <div class="site-footer__seal" lang="zh-Hans" aria-hidden="true">囍</div>
+    <p class="site-footer__names">Gabriel &amp; Mandy</p>
+    <p class="site-footer__date">3 &amp; 7 December 2026</p>
+    <p class="site-footer__zh" lang="zh-Hans">期待与您共度这美好的一天</p>
+  </footer>
+
+  <script>
+/* ==========================================================================
+   Chinese Wedding Invitation — script (plain JavaScript, no libraries)
+
+   1. SETTINGS         <- the only part you need to edit
+   2. Small helpers
+   3. Scroll reveals, header, mobile menu
+   4. Photos, countdown, directions link, music
+   5. RSVP form  (validation + submission to Google Apps Script)
+   ========================================================================== */
+
+(function () {
+  'use strict';
+
+  /* ========================================================================
+     1. SETTINGS
+     ======================================================================== */
+  const CONFIG = {
+    // Paste the "Web app URL" you get after deploying Code.gs (see README.md).
+    // It looks like: https://script.google.com/macros/s/AKfycb.../exec
+    APPS_SCRIPT_URL: 'PASTE_YOUR_WEB_APP_URL_HERE',
+
+    // Largest number of people one RSVP may include (the guest counts themselves).
+    // IMPORTANT: use the same number for MAX_ATTENDEES_PER_RSVP in Code.gs.
+    MAX_ATTENDEES: 4,
+
+    // How long to wait for Google before telling the guest we could not confirm the save.
+    REQUEST_TIMEOUT_MS: 25000
+  };
+
+  /* ========================================================================
+     2. HELPERS
+     ======================================================================== */
+  const $ = (selector, root) => (root || document).querySelector(selector);
+  const $$ = (selector, root) => Array.from((root || document).querySelectorAll(selector));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const hasIO = 'IntersectionObserver' in window;
+
+  /* ========================================================================
+     3. SCROLL REVEALS, HEADER, MOBILE MENU
+     ======================================================================== */
+  function initReveal() {
+    const items = $$('.reveal');
+    if (!items.length) return;
+    if (!hasIO || reduceMotion.matches) {
+      items.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+    items.forEach((el) => observer.observe(el));
+  }
+
+  function initHeader() {
+    const header = $('#site-header');
+    const sentinel = $('#top-sentinel');
+    if (!header || !sentinel) return;
+    if (hasIO) {
+      new IntersectionObserver((entries) => {
+        header.classList.toggle('is-scrolled', !entries[0].isIntersecting);
+      }).observe(sentinel);
+    } else {
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('is-scrolled', window.scrollY > 24);
+      }, { passive: true });
+    }
+  }
+
+  function initNav() {
+    const toggle = $('#nav-toggle');
+    const nav = $('#site-nav');
+    if (!toggle || !nav) return;
+
+    const setOpen = (open) => {
+      nav.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    nav.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
+    document.addEventListener('click', (e) => { if (!e.target.closest('.site-header')) setOpen(false); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+
+  /* ========================================================================
+     4. PHOTOS, COUNTDOWN, DIRECTIONS LINK, MUSIC
+     ======================================================================== */
+
+  // Fades each photo in once it has loaded. If a file is missing, the labelled
+  // placeholder stays on screen instead of a broken-image icon.
+  function initPhotos() {
+    $$('.photo').forEach((box) => {
+      const img = $('img', box);
+      if (!img) return;
+      const onLoad = () => {
+        box.classList.add('has-image');
+        img.classList.add('is-loaded');
+        // Gallery photos (data-auto-ratio) take the shape of the photo itself, within 2:3 to 3:2.
+        const frame = box.closest('[data-auto-ratio]');
+        if (frame && img.naturalWidth && img.naturalHeight) {
+          const natural = img.naturalWidth / img.naturalHeight;
+          const ratio = Math.min(1.5, Math.max(0.667, natural));
+          frame.style.setProperty('--ratio', ratio.toFixed(3));
+          // Arched top for portrait photos only; landscape photos keep a plain frame so heads are not clipped.
+          frame.classList.toggle('frame--arch', natural < 0.95);
+        }
+      };
+      const onError = () => { box.classList.add('is-missing'); };
+      if (img.complete) {
+        (img.naturalWidth > 0 ? onLoad : onError)();
+      } else {
+        img.addEventListener('load', onLoad, { once: true });
+        img.addEventListener('error', onError, { once: true });
+      }
+    });
+  }
+
+  // Counts down to the date in <section id="countdown" data-date="...">.
+  function initCountdown() {
+    const root = $('#countdown');
+    if (!root) return;
+    const target = new Date(root.dataset.date).getTime();
+    if (Number.isNaN(target)) { root.hidden = true; return; }
+
+    const cells = {};
+    $$('[data-unit]', root).forEach((el) => { cells[el.dataset.unit] = el; });
+    const grid = $('.countdown__grid', root);
+    const title = $('.countdown__title', root);
+    const done = $('.countdown__done', root);
+    const pad = (n) => String(n).padStart(2, '0');
+    let timer = null;
+    let finished = false;
+
+    function tick() {
+      const total = Math.floor((target - Date.now()) / 1000);
+      if (total <= 0) {
+        finished = true;
+        clearInterval(timer);
+        grid.hidden = true;
+        title.hidden = true;
+        done.hidden = false;
+        return;
+      }
+      cells.days.textContent = Math.floor(total / 86400);
+      cells.hours.textContent = pad(Math.floor((total % 86400) / 3600));
+      cells.minutes.textContent = pad(Math.floor((total % 3600) / 60));
+      cells.seconds.textContent = pad(total % 60);
+    }
+    const start = () => { tick(); if (!finished) timer = setInterval(tick, 1000); };
+
+    start();
+    // Stop ticking while the tab is in the background (saves battery on phones).
+    document.addEventListener('visibilitychange', () => {
+      if (finished) return;
+      clearInterval(timer);
+      if (!document.hidden) start();
+    });
+  }
+
+  // Builds each "Get directions" link from the address shown in the same event row,
+  // so you only have to type every address once.
+  function initDirections() {
+    $$('[data-venue]').forEach((row) => {
+      const address = $('.detail-row__address', row);
+      const link = $('.js-directions', row);
+      if (!address || !link) return;
+      const query = address.textContent.replace(/\s+/g, ' ').trim();
+      link.href = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(query);
+    });
+  }
+
+  // Optional background music. Never autoplays; the guest has to press the button.
+  // The button stays hidden unless audio/music.mp3 really exists.
+  function initMusic() {
+    const button = $('#music-toggle');
+    const audio = $('#bgm');
+    if (!button || !audio) return;
+
+    const show = () => { button.hidden = false; };
+    if (location.protocol === 'file:') {
+      show(); // a HEAD request is not possible from a local file
+    } else {
+      fetch(audio.getAttribute('src'), { method: 'HEAD', cache: 'no-store' })
+        .then((res) => { if (res.ok) show(); })
+        .catch(() => { /* no music file: keep the button hidden */ });
+    }
+
+    const sync = () => {
+      const playing = !audio.paused;
+      button.classList.toggle('is-playing', playing);
+      button.setAttribute('aria-pressed', String(playing));
+      button.setAttribute('aria-label', playing ? 'Pause background music' : 'Play background music');
+    };
+    audio.addEventListener('play', sync);
+    audio.addEventListener('pause', sync);
+    button.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => { button.hidden = true; }); // file missing or blocked
+      } else {
+        audio.pause();
+      }
+    });
+  }
+
+  /* ========================================================================
+     5. RSVP FORM
+     ------------------------------------------------------------------------
+     HOW THE SUBMISSION WORKS (and why it can be trusted)
+
+       browser --fetch POST--> Apps Script web app --writes--> Google Sheet
+                                       |
+       browser <---- JSON receipt -----+
+
+     * The request is a "simple" CORS request: an application/x-www-form-urlencoded
+       body, no custom headers, no cookies. Browsers send it straight away without
+       a pre-flight (OPTIONS) request, which Apps Script cannot answer.
+     * Apps Script answers a POST with a redirect to script.googleusercontent.com.
+       fetch() follows it automatically, and Google returns the final JSON with
+       "Access-Control-Allow-Origin: *", so this page CAN read the reply.
+     * We do NOT use mode:'no-cors'. That mode hides the reply completely (an
+       "opaque response"), so the page could never know whether the row was
+       written. Success is therefore only shown when the reply is JSON that says
+       saved:true AND echoes the unique receipt id we generated for this attempt
+       (and Code.gs only says so after it has read the row back from the Sheet).
+     * Anything else (network error, timeout, HTML sign-in page, wrong receipt,
+       server error) is shown as a failure and the guest can press Submit again.
+       Re-sending the same answers is safe: the receipt id is reused, and Code.gs
+       ignores an id it has already saved.
+     ======================================================================== */
+  function initRsvp() {
+    const form = $('#rsvp-form');
+    if (!form) return;
+
+    const LIMITS = { name: 100, guestNames: 500, dietary: 200, allergies: 500, contact: 25, message: 1000 };
+    const max = Math.max(1, Math.floor(Number(CONFIG.MAX_ATTENDEES)) || 1);
+
+    const el = {
+      status: $('#form-status'),
+      attendFields: $('#attend-fields'),
+      guestsField: $('#guests-field'),
+      attendees: $('#attendees'),
+      hint: $('#attendees-hint'),
+      submit: $('#submit-btn'),
+      submitLabel: $('.btn__label', form),
+      thanks: $('#thanks'),
+      thanksTitle: $('#thanks-title'),
+      thanksBody: $('#thanks-body'),
+      again: $('#rsvp-again')
+    };
+
+    // Every field that can show an error: where the message goes and which inputs to flag.
+    const FIELDS = {
+      attendance: { wrap: '#field-attendance', error: '#err-attendance', inputs: () => $$('input[name="attendance"]', form) },
+      guestName: { wrap: '#field-guestName', error: '#err-guestName', inputs: () => [$('#guestName')] },
+      attendees: { wrap: '#field-attendees', error: '#err-attendees', inputs: () => [$('#attendees')] },
+      guestNames: { wrap: '#guests-field', error: '#err-guestNames', inputs: () => [$('#guestNames')] },
+      allergies: { wrap: '#field-allergies', error: '#err-allergies', inputs: () => [$('#allergies')] },
+      contact: { wrap: '#field-contact', error: '#err-contact', inputs: () => [$('#contact')] },
+      message: { wrap: '#field-message', error: '#err-message', inputs: () => [$('#message')] }
+    };
+    const FIELD_ORDER = ['attendance', 'guestName', 'attendees', 'guestNames', 'allergies', 'contact', 'message'];
+
+    const state = { busy: false, attempt: { fingerprint: '', id: '' } };
+
+    /* ---- Number-of-attendees dropdown, built from CONFIG.MAX_ATTENDEES ---- */
+    el.attendees.innerHTML = '';
+    if (max > 1) el.attendees.appendChild(new Option('Select…', ''));
+    for (let i = 1; i <= max; i += 1) el.attendees.appendChild(new Option(String(i), String(i)));
+    el.hint.textContent = max === 1
+      ? 'One guest per reply.'
+      : 'Up to ' + max + ' guests per reply, including you.';
+
+    /* ---- Show or hide the questions that only apply to guests who attend ---- */
+    function updateVisibility() {
+      const attending = form.elements.attendance.value === 'Attending';
+      el.attendFields.hidden = !attending;
+      el.guestsField.hidden = !(attending && Number(el.attendees.value) > 1);
+    }
+
+    /* ---- Reading and validating ---- */
+    function readValues() {
+      const data = new FormData(form);
+      const text = (name) => String(data.get(name) || '').trim();
+      const attendance = text('attendance');
+      const attending = attendance === 'Attending';
+      const attendees = attending ? text('attendees') : '0';
+      return {
+        attendance,
+        guestName: text('guestName'),
+        attendees,
+        guestNames: attending && Number(attendees) > 1 ? text('guestNames') : '',
+        dietary: attending ? data.getAll('dietary').join(', ') : '',
+        allergies: attending ? text('allergies') : '',
+        contact: text('contact'),
+        message: text('message'),
+        website: text('website') // spam trap, must stay empty
+      };
+    }
+
+    function validate(v) {
+      const errors = {};
+      if (v.attendance !== 'Attending' && v.attendance !== 'Declined') {
+        errors.attendance = 'Please tell us whether you can attend.';
+      }
+      if (!v.guestName) errors.guestName = 'Please enter your full name.';
+      else if (v.guestName.length > LIMITS.name) errors.guestName = 'Please keep your name under ' + LIMITS.name + ' characters.';
+
+      if (v.attendance === 'Attending') {
+        const n = Number(v.attendees);
+        if (v.attendees === '') errors.attendees = 'Please choose how many people will attend.';
+        else if (!Number.isInteger(n) || n < 1 || n > max) errors.attendees = 'Please choose a number from 1 to ' + max + '.';
+        if (v.guestNames.length > LIMITS.guestNames) errors.guestNames = 'Please keep this under ' + LIMITS.guestNames + ' characters.';
+        if (v.allergies.length > LIMITS.allergies) errors.allergies = 'Please keep this under ' + LIMITS.allergies + ' characters.';
+      }
+      if (v.contact) {
+        const digits = v.contact.replace(/\D/g, '');
+        if (!/^[0-9+()\-.\s]+$/.test(v.contact) || digits.length < 6 || v.contact.length > LIMITS.contact) {
+          errors.contact = 'Please enter a valid phone number, for example +65 9123 4567.';
+        }
+      }
+      if (v.message.length > LIMITS.message) errors.message = 'Please keep your message under ' + LIMITS.message + ' characters.';
+      return errors;
+    }
+
+    /* ---- Showing errors ---- */
+    function setFieldError(name, message) {
+      const field = FIELDS[name];
+      if (!field) return;
+      const errorEl = $(field.error);
+      const wrap = $(field.wrap);
+      if (message) {
+        errorEl.textContent = message;
+        errorEl.hidden = false;
+        wrap.classList.add('has-error');
+        field.inputs().forEach((input) => input.setAttribute('aria-invalid', 'true'));
+      } else {
+        errorEl.textContent = '';
+        errorEl.hidden = true;
+        wrap.classList.remove('has-error');
+        field.inputs().forEach((input) => input.removeAttribute('aria-invalid'));
+      }
+    }
+
+    function showFieldErrors(errors, focusFirst) {
+      FIELD_ORDER.forEach((name) => setFieldError(name, errors[name]));
+      if (focusFirst) {
+        const first = FIELD_ORDER.find((name) => errors[name]);
+        if (first) FIELDS[first].inputs()[0].focus();
+      }
+    }
+
+    function showStatus(message) {
+      el.status.textContent = message;
+      el.status.hidden = false;
+    }
+    function clearStatus() {
+      el.status.textContent = '';
+      el.status.hidden = true;
+    }
+
+    /* ---- Busy state: the button is disabled while a request is running ---- */
+    function setBusy(busy) {
+      state.busy = busy;
+      el.submit.disabled = busy;
+      if (busy) el.submit.setAttribute('aria-busy', 'true');
+      else el.submit.removeAttribute('aria-busy');
+      el.submitLabel.textContent = busy ? 'Sending…' : 'Submit RSVP';
+    }
+
+    /* ---- Sending ---- */
+    class SubmitError extends Error {
+      constructor(kind, message, extra) {
+        super(message);
+        this.kind = kind;
+        Object.assign(this, extra || {});
+      }
+    }
+
+    const isConfigured = () => /^https:\/\/script\.google(usercontent)?\.com\//.test(CONFIG.APPS_SCRIPT_URL);
+
+    function makeId() {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+    }
+
+    // Same answers => same receipt id, so a retry after an unclear failure cannot create a second row.
+    function receiptIdFor(values) {
+      const fingerprint = JSON.stringify(values);
+      if (state.attempt.fingerprint !== fingerprint) state.attempt = { fingerprint, id: makeId() };
+      return state.attempt.id;
+    }
+
+    async function sendRsvp(values, receiptId) {
+      const body = new URLSearchParams();
+      Object.keys(values).forEach((key) => { if (key !== 'website') body.append(key, values[key]); });
+      body.append('submissionId', receiptId);
+
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), CONFIG.REQUEST_TIMEOUT_MS);
+      let data;
+      try {
+        const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+          method: 'POST',
+          body,                     // sent as application/x-www-form-urlencoded (no CORS pre-flight)
+          redirect: 'follow',       // Apps Script answers through a redirect
+          credentials: 'omit',      // no cookies, so "Access-Control-Allow-Origin: *" is accepted
+          cache: 'no-store',
+          signal: controller.signal
+        });
+        if (!response.ok) throw new SubmitError('http', 'HTTP ' + response.status);
+        const text = await response.text();
+        try {
+          data = JSON.parse(text);
+        } catch (parseError) {
+          throw new SubmitError('bad_response', 'The reply was not JSON (often a Google sign-in page).');
+        }
+      } catch (err) {
+        if (err instanceof SubmitError) throw err;
+        throw new SubmitError(err && err.name === 'AbortError' ? 'timeout' : 'network', String(err));
+      } finally {
+        clearTimeout(timer);
+      }
+
+      // The server said no (validation problem, event full, busy ...).
+      if (data && data.ok === false) {
+        throw new SubmitError('rejected', data.message || '', { code: data.error, errors: data.errors });
+      }
+      // Success counts ONLY if the server confirms the save and echoes our receipt id.
+      const confirmed = data && data.ok === true && data.saved === true &&
+        data.receipt === receiptId && Number.isInteger(data.row) && data.row >= 2;
+      if (!confirmed) throw new SubmitError('unverified', 'The reply did not confirm that the RSVP was saved.');
+      return data;
+    }
+
+    function explainFailure(err) {
+      console.error('[RSVP] submission failed:', err.kind, err.message, err.code || '', err.errors || '');
+      switch (err.kind) {
+        case 'network':
+          return 'We could not reach the guest list. Please check your internet connection and press Submit RSVP again.';
+        case 'timeout':
+          return 'The guest list took too long to reply, so we cannot tell whether your RSVP was saved. Please press Submit RSVP again. Sending twice will not create a duplicate.';
+        case 'rejected':
+          if (err.code === 'validation') return 'Some answers need another look. Please check the highlighted fields.';
+          if (err.message) return err.message;
+          return 'Your RSVP was not accepted. Please try again in a moment.';
+        default:
+          return 'We could not confirm that your RSVP was saved. Please press Submit RSVP again. If it keeps failing, please contact the couple directly.';
+      }
+    }
+
+    /* ---- Confirmation ---- */
+    function showThanks(values) {
+      const attending = values.attendance === 'Attending';
+      const count = Number(values.attendees);
+      if (attending) {
+        el.thanksTitle.textContent = 'Thank you, ' + values.guestName + '. We will see you there.';
+        el.thanksBody.textContent = 'Your RSVP for ' + count + (count === 1 ? ' guest' : ' guests') +
+          ' is saved. We cannot wait to celebrate with you. 期待与您相见。';
+      } else {
+        el.thanksTitle.textContent = 'Thank you, ' + values.guestName + '. You will be missed.';
+        el.thanksBody.textContent = 'Your reply is saved. Thank you for letting us know, and for your warm wishes. 感谢您的祝福。';
+      }
+      form.hidden = true;
+      el.thanks.hidden = false;
+      el.thanks.focus({ preventScroll: true });
+      $('#rsvp-panel').scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+    }
+
+    /* ---- Events ---- */
+    form.addEventListener('change', (e) => {
+      if (e.target.name === 'attendance' || e.target.id === 'attendees') updateVisibility();
+    });
+
+    // Clear an error as soon as the guest starts fixing it.
+    form.addEventListener('input', (e) => {
+      const name = e.target.name === 'attendance' ? 'attendance' : e.target.id;
+      if (FIELDS[name]) setFieldError(name, '');
+    });
+
+    // Check the phone number when the guest leaves the field (the name is checked on submit).
+    form.addEventListener('focusout', (e) => {
+      if (e.target.id !== 'contact') return;
+      setFieldError('contact', validate(readValues()).contact || '');
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (state.busy) return;
+      clearStatus();
+
+      const values = readValues();
+      if (values.website) return; // a bot filled the hidden field: do nothing
+
+      const errors = validate(values);
+      showFieldErrors(errors, true);
+      if (Object.keys(errors).length) return;
+
+      if (!isConfigured()) {
+        console.error('[RSVP] APPS_SCRIPT_URL is not set in index.html (search for APPS_SCRIPT_URL). See README.md, step 5.');
+        showStatus('The RSVP form is not connected to the guest list yet, so nothing was sent. Please contact the couple directly.');
+        return;
+      }
+
+      setBusy(true);
+      try {
+        await sendRsvp(values, receiptIdFor(values));
+        state.attempt = { fingerprint: '', id: '' };
+        showThanks(values);
+      } catch (err) {
+        let message = explainFailure(err);
+        if (err.kind === 'rejected' && err.errors) {
+          // Show the server's field messages next to the fields (Code.gs re-checks everything).
+          showFieldErrors(err.errors, false);
+          const unmapped = Object.keys(err.errors).filter((key) => !FIELDS[key]);
+          if (unmapped.length) message += ' ' + unmapped.map((key) => err.errors[key]).join(' ');
+        }
+        showStatus(message);
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    el.again.addEventListener('click', () => {
+      form.reset();
+      updateVisibility();
+      showFieldErrors({}, false);
+      clearStatus();
+      el.thanks.hidden = true;
+      form.hidden = false;
+      $('input[name="attendance"]', form).focus();
+    });
+
+    updateVisibility();
+  }
+
+  /* ========================================================================
+     START
+     ======================================================================== */
+  function init() {
+    initReveal();
+    initHeader();
+    initNav();
+    initPhotos();
+    initCountdown();
+    initDirections();
+    initMusic();
+    initRsvp();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+  </script>
+</body>
+</html>
